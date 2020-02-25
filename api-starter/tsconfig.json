@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "target": "es5",
+        "preserveConstEnums": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "outDir": "dist",
+        "rootDir": "src",
+        "sourceMap": true,
+        "baseUrl": "src",
+        "paths": {
+            "@services/*": ["./api/services/*"],
+        }
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "./node_modules",
+    ],
+}
