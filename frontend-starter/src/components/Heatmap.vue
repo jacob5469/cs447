@@ -1,5 +1,5 @@
 <template>
-  <div id="map-canvas" class="heatmap"></div>
+  <div id="map-canvas" class="heatmap" />
 </template>
 
 <script lang="ts">
@@ -30,13 +30,10 @@ export default class Heatmap extends Vue {
   }
   //Mounted is called automatically when the component loads by Vue
   mounted() {
-
     this.setupCanvas();
- 
   }
 
   setupCanvas() {
-
     const map = L.map("map-canvas").setView([47.334852, -1.509485], 12);
 
     const tiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -53,6 +50,12 @@ export default class Heatmap extends Vue {
 
     addressPoints = this.latlngs.map((p: any) => [p[0], p[1]]);
 
+    for (const point of addressPoints) {
+      L.marker(point)
+        .bindPopup("Some popup")
+        .addTo(map);
+    }
+
     const heat = L.heatLayer(addressPoints, {
       radius: 60,
       blur: 60,
@@ -65,10 +68,10 @@ export default class Heatmap extends Vue {
 <style>
 .basic-example {
   width: 100%;
-  height: 500px;
+  height: 100%;
 }
 
 #map-canvas {
-  height: 350px;
+  height: 1200px;
 }
 </style>
