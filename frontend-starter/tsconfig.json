@@ -13,7 +13,7 @@
     "baseUrl": ".",
     "typeRoots": [
       "./node_modules/@types",
-      "src/types"
+      "src/types",
     ],
     "types": [
       "webpack-env",

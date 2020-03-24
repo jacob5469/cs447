@@ -9,12 +9,10 @@ import "leaflet.heat";
 import * as L from "leaflet";
 
 @Component({
-
   components: {
-    LMap,LTileLayer
-
+    LMap,
+    LTileLayer
   }
-
 })
 export default class Heatmap extends Vue {
   private latlngs = [
@@ -29,15 +27,12 @@ export default class Heatmap extends Vue {
 
   constructor() {
     super();
+  }
+  //Mounted is called automatically when the component loads by Vue
+  mounted() {
 
-    setInterval(() => {
-
-      this.setupCanvas();
-
-      clearInterval();
-
-    }, 5000);
-    
+    this.setupCanvas();
+ 
   }
 
   setupCanvas() {
@@ -49,19 +44,20 @@ export default class Heatmap extends Vue {
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    let addressPoints = require("./address_points.js").default;
+    let addressPoints = 0 as any; //bad code
 
-    console.log(addressPoints);
+    // Ignore if you see a error here
+    // addressPoints = require("./address_points.js").default;
 
     // addressPoints = addressPoints.map((p: any) => [p[0], p[1]]);
 
-    addressPoints = this.latlngs.map((p:any) => [p[0] , p[1]] )
+    addressPoints = this.latlngs.map((p: any) => [p[0], p[1]]);
 
-    console.log(typeof addressPoints);
-    console.log(addressPoints);
-
-    const heat = L.heatLayer(addressPoints, {radius: 60,blur: 60,minOpacity:.75}).addTo(map);
-  
+    const heat = L.heatLayer(addressPoints, {
+      radius: 60,
+      blur: 60,
+      minOpacity: 0.75
+    }).addTo(map);
   }
 }
 </script>
