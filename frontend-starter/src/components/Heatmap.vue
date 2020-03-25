@@ -28,7 +28,7 @@ export default class Heatmap extends Vue {
   constructor() {
     super();
   }
-  //Mounted is called automatically when the component loads by Vue
+  // Mounted is called automatically when the component loads by Vue
   mounted() {
     this.setupCanvas();
   }
