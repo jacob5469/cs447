@@ -12,13 +12,19 @@
         "sourceMap": true,
         "baseUrl": "src",
         "paths": {
-            "@services/*": ["./api/services/*"],
-        }
+            "@services/*": [
+                "./api/services/*"
+            ],
+        },
+        "typeRoots": [
+            "./node_modules/@types",
+            "./src/types",
+        ]
     },
     "include": [
         "src/**/*"
     ],
     "exclude": [
         "./node_modules",
-    ],
+    ]
 }
