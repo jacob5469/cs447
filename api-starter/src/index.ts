@@ -4,7 +4,6 @@ import { initialize } from "express-openapi";
 import { TestService } from "@services/test";
 import apiDoc from "./api/apiDoc";
 import swaggerUi from "swagger-ui-express";
-import SodaConsumer from "types/SodaConsumer";
 import Soda from "types/Soda";
 
 const soda: Soda = require("soda-js");
