@@ -15,6 +15,7 @@ import * as L from "leaflet";
   }
 })
 export default class Heatmap extends Vue {
+  
   private latlngs = [
     [47.334852, -1.509485, 1],
     [47.342596, -1.328731, 0.75],

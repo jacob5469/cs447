@@ -1,4 +1,3 @@
-import { SodaQuery } from "./SodaQuery";
 import SodaConsumer from "./SodaConsumer";
 
 /**

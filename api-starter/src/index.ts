@@ -5,6 +5,7 @@ import { TestService } from "@services/test";
 import apiDoc from "./api/apiDoc";
 import swaggerUi from "swagger-ui-express";
 import Soda from "types/Soda";
+import bodyParser from "body-parser";
 
 const soda: Soda = require("soda-js");
 
@@ -24,7 +25,7 @@ consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.eq("
         
         console.log(rows.length);
     
-})
+});
 
 router.get("/base", (req, res, next) => {
     console.log("Router get called");
@@ -32,6 +33,7 @@ router.get("/base", (req, res, next) => {
 });
 
 app.use(router);
+app.use(bodyParser.json());
 
 const openapi = initialize({
     apiDoc: apiDoc,
