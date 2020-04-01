@@ -21,7 +21,7 @@ const routes = [
   {
     path: "/heatmap",
     name: "Heatmap",
-    component: () => import(/* webpackChunkName: "about" */ "../components/Heatmap.vue")
+    component: () => import(/* webpackChunkName: "about" */ "../views/Heatmap.vue")
   },
 ];
 

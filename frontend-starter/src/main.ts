@@ -5,12 +5,16 @@ import router from "./router";
 import store from "./store";
 import "leaflet/dist/leaflet.css";
 import * as L from "leaflet";
+import Vuetify from "vuetify";
+import 'vuetify/dist/vuetify.min.css';
 
 Vue.config.productionTip = false;
+Vue.use(Vuetify);
 
 new Vue({
   router,
   store,
+  vuetify: new Vuetify(),
   render: h => h(App)
 }).$mount("#app");
 
