@@ -1,78 +1,35 @@
 <template>
-  <div id="map-canvas" class="heatmap" />
+  <div>
+    <Map class="map"/>
+    <Sidebar class="sidebar" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { LMap, LTileLayer } from "vue2-leaflet";
-import "leaflet.heat";
-import * as L from "leaflet";
+import Map from "../components/Map.vue";
+import Sidebar from "../components/Sidebar.vue";
 
 @Component({
   components: {
-    LMap,
-    LTileLayer
+    Map,
+    Sidebar
   }
 })
 export default class Heatmap extends Vue {
-  
-  private latlngs = [
-    [47.334852, -1.509485, 1],
-    [47.342596, -1.328731, 0.75],
-    [47.342596, -1.329731, 1],
-    [47.342596, -1.329731, 1],
-    [47.342596, -1.329731, 1],
-    [47.241487, -1.190568, 0.5],
-    [47.234787, -1.358337, 1]
-  ];
-
-  constructor() {
-    super();
-  }
-  // Mounted is called automatically when the component loads by Vue
-  mounted() {
-    this.setupCanvas();
-  }
-
-  setupCanvas() {
-    const map = L.map("map-canvas").setView([47.334852, -1.509485], 12);
-
-    const tiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-      attribution:
-        '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    let addressPoints = 0 as any; //bad code
-
-    // Ignore if you see a error here
-    // addressPoints = require("./address_points.js").default;
-
-    // addressPoints = addressPoints.map((p: any) => [p[0], p[1]]);
-
-    addressPoints = this.latlngs.map((p: any) => [p[0], p[1]]);
-
-    for (const point of addressPoints) {
-      L.marker(point)
-        .bindPopup("Some popup")
-        .addTo(map);
-    }
-
-    const heat = L.heatLayer(addressPoints, {
-      radius: 60,
-      blur: 60,
-      minOpacity: 0.75
-    }).addTo(map);
-  }
 }
 </script>
 
 <style>
-.basic-example {
-  width: 100%;
+.map {
+  width: 80%;
   height: 100%;
 }
 
-#map-canvas {
-  height: 1200px;
+.sidebar {
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  right: 0px;
 }
 </style>

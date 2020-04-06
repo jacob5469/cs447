@@ -15,8 +15,10 @@
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.2",
+    "vue-multiselect": "^2.1.6",
     "vue-property-decorator": "^8.3.0",
     "vue-router": "^3.1.5",
+    "vue-sidebar-menu": "^4.5.3",
     "vue2-leaflet": "^2.5.2",
     "vuetify": "^2.2.19",
     "vuex": "^3.1.2"
