@@ -1,11 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/heatmap">Heatmap</router-link>
-    </div>
-    <router-view />
+    <v-app id="inspire">
+      <v-app-bar color="orange" dark app>
+        <v-toolbar-title>Baltimore Crime Data</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items class="hidden-sm-and-down">
+          <router-link to="/" tag="button">Home</router-link>
+          <v-divider class="mx-10" vertical></v-divider>
+          <router-link to="/about" tag="button">About</router-link>
+          <v-divider class="mx-10" vertical></v-divider>
+          <router-link to="/heatmap" tag="button">Heat Map</router-link>
+        </v-toolbar-items>
+      </v-app-bar>
+      <v-content>
+        <router-view />
+      </v-content>
+    </v-app>
   </div>
 </template>
 
@@ -17,17 +27,5 @@
   text-align: center;
   color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
+
