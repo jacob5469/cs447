@@ -65,7 +65,7 @@ setInterval(async () => {
 
     const latestData = await mySqlService.getLatestData();
 
-    console.log(latestData);
+    console.log(latestData)
 
 
 }, 3000)
