@@ -1,11 +1,18 @@
 import express from "express";
 import "module-alias/register";
 import { initialize } from "express-openapi";
+import { MySqlService } from "@services/MySqlService";
 import { TestService } from "@services/test";
 import apiDoc from "./api/apiDoc";
 import swaggerUi from "swagger-ui-express";
 import Soda from "types/Soda";
 import bodyParser from "body-parser";
+
+require("dotenv").config();
+
+const mySqlService = new MySqlService(process.env.DB_PASSWORD,process.env.DB_NAME);
+
+mySqlService.query("SELECT * FROM vbcd LIMIT 2");
 
 const soda: Soda = require("soda-js");
 
