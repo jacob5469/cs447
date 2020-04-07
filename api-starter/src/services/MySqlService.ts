@@ -44,7 +44,7 @@ export class MySqlService {
     }
 
     // Method stub to get the record with the latest crimetime and crimedate
-    async getLatestData() : Promise<{date:Date,time:string}> {
+    async getLatestData() : Promise<{date:string,time:string}> {
 
         return {} as any;
     }
