@@ -9,7 +9,12 @@ import bodyParser from "body-parser";
 
 require("dotenv").config();
 
-const mySqlService = new MySqlService(process.env.DB_PASSWORD,process.env.DB_NAME);
+/*
+DB_PASSWORD=
+DB_NAME=
+*/
+
+const mySqlService = new MySqlService(process.env.DB_PASSWORD, process.env.DB_NAME);
 
 mySqlService.query("SELECT * FROM vbcd LIMIT 2");
 
@@ -24,12 +29,12 @@ const router = express.Router();
 
 const consumer = new soda.Consumer("data.baltimorecity.gov");
 
-consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.eq("CrimeTime","00:30:00"),soda.expr.eq("CrimeTime","00:30:00"))
-    .getRows().on("success", function(rows: any) { 
-        
+consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.eq("CrimeTime", "00:30:00"), soda.expr.eq("CrimeTime", "00:30:00"))
+    .getRows().on("success", function (rows: any) {
+
         console.log(rows.length);
-    
-});
+
+    });
 
 app.use(router);
 app.use(bodyParser.json());
@@ -48,10 +53,19 @@ const openapi = initialize({
 
 // Setup swagger UI at /api using the doc on the openapi object
 
-app.use("/doc",swaggerUi.serve,swaggerUi.setup(openapi.apiDoc));
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(openapi.apiDoc));
 
 // app.use(((err, req, res) => {
 //     res.status(err.status).json(err);
 // }) as express.ErrorRequestHandler);
 
 app.listen(3000, () => console.log("Server listening on port 3000"));
+
+setInterval(async () => {
+
+    const latestData = await mySqlService.getLatestData();
+
+    console.log(latestData);
+
+
+}, 3000)

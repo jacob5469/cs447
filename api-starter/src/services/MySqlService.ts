@@ -1,6 +1,4 @@
 import mysql from "mysql";
-import SodaConsumer from "@defs/SodaConsumer";
-import Soda from "@defs/Soda";
 import { ApiRequest } from "@defs/ApiRequest";
 
 // Once we add options to update, maybe this will be more accurately a generalized data service?
@@ -35,7 +33,6 @@ export class MySqlService {
 
             this.connection.query(query, function (error, results, fields) {
                 if (error) reject(error);
-                console.log(results);
                 resolve(results);
             });
 
@@ -44,9 +41,11 @@ export class MySqlService {
     }
 
     // Method stub to get the record with the latest crimetime and crimedate
-    async getLatestData() : Promise<{date:string,time:string}> {
 
-        return {} as any;
+    // INSERT INTO `vbcd` VALUES (1,'2020-03-28','03:00:00','3JF','4200 FALLSTAFF RD','ROBBERY - RESIDENCE','I','FIREARM','631','NORTHWEST','FALLSTAFF',-76.71127351,39.36068047,'ROW/TOWNHOUSE-OCC','',1)
+    async getLatestData() : Promise<{date:string,time:string}> {
+        const queryResult = (await this.query("SELECT CrimeDate,CrimeTime FROM vbcd ORDER BY CrimeDate DESC,CrimeTime DESC LIMIT 1"))[0];
+        return {date: new Date(queryResult.CrimeDate).toISOString().split("T")[0], time: queryResult.CrimeTime};
     }
 
     // Method stub to get data from our database using the parameters of a request
