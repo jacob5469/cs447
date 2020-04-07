@@ -13,8 +13,11 @@
         "baseUrl": "src",
         "paths": {
             "@services/*": [
-                "./api/services/*"
+                "./services/*"
             ],
+            "@defs/*": [
+                "./types/*"
+            ]
         },
         "typeRoots": [
             "./node_modules/@types",

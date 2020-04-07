@@ -1,6 +1,6 @@
 export default {
   swagger: "2.0",
-  basePath: "/base",
+  basePath: "/api",
 	info: {
 		"title": "A getting started API.",
 		"version": "1.0.0"

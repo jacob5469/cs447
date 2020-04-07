@@ -16,7 +16,8 @@
     "serve-debug": "node --inspect ./dist/index.js"
   },
   "_moduleAliases": {
-    "@services": "dist/api/services/"
+    "@services": "dist/services/",
+    "@defs": "dist/types/"
   },
   "author": "",
   "license": "ISC",
