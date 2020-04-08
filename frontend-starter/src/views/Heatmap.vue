@@ -1,6 +1,9 @@
 <template>
   <div>
-    <Map class="map"/>
+    <div class="main-view">
+      <Map class="map"/>
+      <Graphs class="graphs"/>
+    </div>
     <Sidebar class="sidebar" />
   </div>
 </template>
@@ -9,10 +12,12 @@
 import { Component, Vue } from "vue-property-decorator";
 import Map from "../components/Map.vue";
 import Sidebar from "../components/Sidebar.vue";
+import Graphs from "../components/Graphs.vue";
 
 @Component({
   components: {
     Map,
+    Graphs,
     Sidebar
   }
 })
@@ -21,9 +26,20 @@ export default class Heatmap extends Vue {
 </script>
 
 <style>
+.main-view {
+  width: 100%;
+  height: 100%;
+}
+
 .map {
   width: 80%;
   height: 100%;
+}
+
+.graphs {
+  width: 80%;
+  height: 100%;
+  background-color: yellow;
 }
 
 .sidebar {
