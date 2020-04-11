@@ -42,14 +42,13 @@ export class MySqlService {
 
     // Method stub to get the record with the latest crimetime and crimedate
 
-    // INSERT INTO `vbcd` VALUES (1,'2020-03-28','03:00:00','3JF','4200 FALLSTAFF RD','ROBBERY - RESIDENCE','I','FIREARM','631','NORTHWEST','FALLSTAFF',-76.71127351,39.36068047,'ROW/TOWNHOUSE-OCC','',1)
+    // INSERT INTO `vbcd` VALUES ('2020-03-28','03:00:00','3JF','4200 FALLSTAFF RD','ROBBERY - RESIDENCE','I','FIREARM','631','NORTHWEST','FALLSTAFF',-76.71127351,39.36068047,'ROW/TOWNHOUSE-OCC','',1)
     async getLatestData(): Promise<{ date: string, time: string }> {
         const queryResult = (await this.query("SELECT CrimeDate,CrimeTime FROM vbcd ORDER BY CrimeDate DESC,CrimeTime DESC LIMIT 1"))[0];
         return { date: new Date(queryResult.CrimeDate).toISOString().split("T")[0], time: queryResult.CrimeTime };
     }
 
     // Method stub to get data from our database using the parameters of a request
-
     async getData(params: ApiRequest["body"]) {
 
     }

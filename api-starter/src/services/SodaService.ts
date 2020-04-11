@@ -1,14 +1,15 @@
 import Soda from "types/Soda";
 
-const soda: Soda = require("soda-js");
-const consumer = new soda.Consumer("data.baltimorecity.gov"); // Gets data from server
-
 export class SodaService {
+    readonly soda: Soda = require("soda-js");
+    readonly consumer = new this.soda.Consumer("data.baltimorecity.gov"); // Gets data from server
     getLatestData(latestData: any): Promise<any> {
 
+
+        console.log(latestData);
         return new Promise<any>((resolve, reject) => {
-            consumer.query().limit(10000).withDataset("wsfq-mvij").where(soda.expr.gt("CrimeDate", latestData.date), soda.expr.gt("CrimeTime", latestData.time)).getRows().on("success", function (rows: any) {
-                resolve(rows)
+            this.consumer.query().limit(10000).withDataset("wsfq-mvij").where(this.soda.expr.gt("CrimeDate", latestData.date), this.soda.expr.gt("CrimeTime", latestData.time)).getRows().on("success", function (rows: any) {
+                resolve(rows);
             });
         });
     }

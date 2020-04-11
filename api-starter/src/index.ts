@@ -29,13 +29,13 @@ const router = express.Router();
 // Create a data consumer for the baltimore city dataset 
 // A Soda service will probably be created to facilitate all the soda stuff
 
-const consumer = new soda.Consumer("data.baltimorecity.gov");
-consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.gt("CrimeDate", "04/04/2020"), soda.expr.gt("CrimeTime", "00:00:00"))
-    .getRows().on("success", function (rows: any) {
+// const consumer = new soda.Consumer("data.baltimorecity.gov");
+// consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.gt("CrimeDate", "04/04/2020"), soda.expr.gt("CrimeTime", "00:00:00"))
+//     .getRows().on("success", function (rows: any) {
 
-        console.log(rows.length);
-        return rows[0].CrimeDate
-    });
+//         console.log(rows.length);
+//         return rows[0].CrimeDate
+//     });
 /*
  consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.gt("CrimeDate", latestData.date),soda.expr.gt("CrimeTime", latestData.time))
     .getRows().on("success", function (rows: any) {
@@ -73,9 +73,9 @@ setInterval(async () => {
 
     const latestData = await mySqlService.getLatestData();
     const latestSodaData = await sodaService.getLatestData(latestData);
-    if(latestSodaData != null){
+    // if(latestSodaData != null){
         
-    }
+    // }
     console.log(latestData);
 
 
