@@ -77,7 +77,7 @@ setInterval(async () => {
     if (latestSodaData != null) {
         // INSERT INTO `vbcd` VALUES ('2020-03-28','03:00:00','3JF','4200 FALLSTAFF RD','ROBBERY - RESIDENCE','I','FIREARM','631','NORTHWEST','FALLSTAFF',-76.71127351,39.36068047,'ROW/TOWNHOUSE-OCC','',1)
         for(let i=0; i < loops; i++){
-            mySqlService.query("INSERT INTO `vbcd` VALUES (" +"' ','"+
+           await mySqlService.query("INSERT INTO `vbcd` VALUES (" +"' ','"+
             latestSodaData[i].CrimeDate+"','"+
             latestSodaData[i].CrimeTime+"','"+
             latestSodaData[i].CrimeCode+ "','"+
