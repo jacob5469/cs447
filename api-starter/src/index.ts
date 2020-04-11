@@ -73,9 +73,30 @@ setInterval(async () => {
 
     const latestData = await mySqlService.getLatestData();
     const latestSodaData = await sodaService.getLatestData(latestData);
-    // if(latestSodaData != null){
-        
-    // }
+    const loops = latestSodaData.length
+    if (latestSodaData != null) {
+        // INSERT INTO `vbcd` VALUES ('2020-03-28','03:00:00','3JF','4200 FALLSTAFF RD','ROBBERY - RESIDENCE','I','FIREARM','631','NORTHWEST','FALLSTAFF',-76.71127351,39.36068047,'ROW/TOWNHOUSE-OCC','',1)
+        for(let i=0; i < loops; i++){
+            mySqlService.query("INSERT INTO `vbcd` VALUES (" +"' ','"+
+            latestSodaData[i].CrimeDate+"','"+
+            latestSodaData[i].CrimeTime+"','"+
+            latestSodaData[i].CrimeCode+ "','"+
+            latestSodaData[i].Location+"','"+
+            latestSodaData[i].Description+"','"+
+            latestSodaData[i].Inside_Outside+"','"+
+            latestSodaData[i].Weapon+"','"+
+            latestSodaData[i].Post+"','"+
+            latestSodaData[i].District+"','"+
+            latestSodaData[i].Neighborhood+"','"+
+            latestSodaData[i].Longitude+"','"+
+            latestSodaData[i].Latitude+"','"+
+            latestSodaData[i].Premise+"','"+
+            latestSodaData[i].Vri_name1+"','"+
+            latestSodaData[i].Total_Incidents+
+            "')")  
+        }
+    
+    }
     console.log(latestData);
 
 
