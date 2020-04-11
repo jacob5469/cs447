@@ -2,6 +2,7 @@ import express from "express";
 import "module-alias/register";
 import { initialize } from "express-openapi";
 import { MySqlService } from "@services/MySqlService";
+import { SodaService } from "@services/SodaService";
 import apiDoc from "./apiDoc";
 import swaggerUi from "swagger-ui-express";
 import Soda from "types/Soda";
@@ -15,6 +16,7 @@ DB_NAME=
 */
 
 const mySqlService = new MySqlService(process.env.DB_PASSWORD, process.env.DB_NAME);
+const sodaService = new SodaService();
 
 mySqlService.query("SELECT * FROM vbcd LIMIT 2");
 
@@ -28,7 +30,7 @@ const router = express.Router();
 // A Soda service will probably be created to facilitate all the soda stuff
 
 const consumer = new soda.Consumer("data.baltimorecity.gov");
-consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.gt("CrimeDate", "04/04/2020"),soda.expr.gt("CrimeTime", "00:00:00"))
+consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.gt("CrimeDate", "04/04/2020"), soda.expr.gt("CrimeTime", "00:00:00"))
     .getRows().on("success", function (rows: any) {
 
         console.log(rows.length);
@@ -70,8 +72,11 @@ app.listen(3000, () => console.log("Server listening on port 3000"));
 setInterval(async () => {
 
     const latestData = await mySqlService.getLatestData();
-
-    console.log(latestData)
+    const latestSodaData = await sodaService.getLatestData(latestData);
+    if(latestSodaData != null){
+        
+    }
+    console.log(latestData);
 
 
 }, 3000)
