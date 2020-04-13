@@ -44,6 +44,7 @@ export class MySqlService {
 
     async getNewestData(): Promise<{ date: string, time: string }> {
         const queryResult = (await this.query("SELECT crimedate,crimetime FROM vbcd ORDER BY crimedate DESC,crimetime DESC LIMIT 1"))[0];
+        if(!queryResult) return {date:"0001-01-01",time:"00:00:00"}
         return { date: new Date(queryResult.crimedate).toISOString().split("T")[0], time: queryResult.crimetime };
     }
 
@@ -54,27 +55,28 @@ export class MySqlService {
 
     async insertDataRows(data: any) {
 
-        let insertString = "INSERT INTO `vbcd` (crimedate,crimetime,crimecode,location,description,weapon,post,district,neighborhood,longitude,latitude,total_incidents) VALUES ";
+        let insertString = "INSERT INTO `vbcd` (crimedate,crimetime,crimecode,location,description,inside_outside,weapon,post,district,neighborhood,longitude,latitude,premise,total_incidents) VALUES ";
 
         for (let row of data) {
 
-            insertString += "('" +
-                ((row.crimedate) ? new Date(row.crimedate).toISOString().split("T")[0] : "0001-01-01") + "','" +
-                (row.crimetime || "00:00:00") + "','" +
-                row.crimecode + "','" +
-                (row.location || "") + "','" +
-                (row.description || "") + "','" +
-                (row.weapon || "") + "','" +
-                (row.post || "") + "','" +
-                (row.district || "") + "','" +
-                (row.neighborhood || "") + "'," +
+            insertString += "\n(" +
+                (row.crimedate ? "\"" +new Date(row.crimedate).toISOString().split("T")[0] + "\"" : "NULL") + "," +
+                (row.crimetime ? "\"" +row.crimetime +"\"" : "'00:00:00'") +"," +
+                (row.crimecode ? "\"" + row.crimecode  + "\"" : "NULL") + "," +
+                (row.location ? "\"" + row.location  + "\"" : "NULL") + "," +
+                (row.description ? "\"" + row.description + "\"" : "NULL") + "," +
+                (row.inside_outside ? "\"" + row.inside_outside.substring(0,1).toUpperCase() + "\"" : "NULL") + "," +
+                (row.weapon ? "\"" + row.weapon + "\"" : "NULL") + "," +
+                (row.post ? "\"" + row.post + "\"" : "NULL") + "," +
+                (row.district ? "\"" + row.district + "\"" : "NULL") + "," +
+                (row.neighborhood ? "\"" + row.neighborhood + "\"" : "NULL") + "," +
                 (row.longitude || "NULL") + "," +
                 (row.latitude || "NULL") + "," +
+                (row.premise ? "\"" + row.premise + "\"" : "NULL") + "," +
                 row.total_incidents +
                 "),"
         }
         insertString = insertString.substring(0, insertString.length - 1);
-
         await this.query(insertString);
 
     }
