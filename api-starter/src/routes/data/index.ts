@@ -11,11 +11,11 @@ export default function (mySqlService: MySqlService) {
     // This could be a POST with easy body parameters, but maybe more annoying to document or a GET with header parameters/form-encoded
     async function post(req: ApiRequest, res: Response, next: NextFunction) {
 
-        const queryResult = await mySqlService.query("SELECT * FROM vbcd LIMIT 10");
+        // const queryResult = await mySqlService.query("SELECT * FROM vbcd LIMIT 10");
 
-        console.log(new Date(queryResult[0].CrimeDate).toISOString().split("T")[0]);
+        // console.log(new Date(queryResult[0].CrimeDate).toISOString().split("T")[0]);
 
-        res.status(200).send(queryResult);
+        // res.status(200).send(queryResult);
 
     }
 
