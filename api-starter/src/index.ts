@@ -5,7 +5,6 @@ import { MySqlService } from "@services/MySqlService";
 import { SodaService } from "@services/SodaService";
 import apiDoc from "./apiDoc";
 import swaggerUi from "swagger-ui-express";
-import Soda from "types/Soda";
 import bodyParser from "body-parser";
 
 require("dotenv").config();
