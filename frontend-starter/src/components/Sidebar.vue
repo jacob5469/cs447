@@ -12,48 +12,53 @@
     </div>
     <div>
       <div class="small-title">Descriptions</div> <!-- TODO -->
-      <multiselect
+      <descriptions
         class="multi" 
-        v-model="selected"
+        id="descriptions"
+        v-model="selectedDescriptions"
         :multiple="true" 
         :options="descriptionOptions">
-      </multiselect>
+      </descriptions>
     </div>
     <div>
       <div class="small-title">Districts</div> <!-- TODO -->
-      <multiselect
+      <districts
         class="multi" 
-        v-model="selected"
+        id="districts"
+        v-model="selectedDistricts"
         :multiple="true" 
         :options="districtOptions">
-      </multiselect>
+      </districts>
     </div>
     <div>
       <div class="small-title">Days</div> <!-- TODO -->
-      <multiselect
+      <days
         class="multi" 
-        v-model="selected"
+        id="days"
+        v-model="selectedDays"
         :multiple="true" 
         :options="dayOptions">
-      </multiselect>
+      </days>
     </div>
     <div>
       <div class="small-title">Weapons</div> <!-- TODO -->
-      <multiselect
-        class="multi" 
-        v-model="selected"
+      <weapons
+        class="multi"
+        id="weapons" 
+        v-model="selectedWeapons"
         :multiple="true" 
         :options="weaponOptions">
-      </multiselect>
+      </weapons>
     </div>
     <div>
       <div class="small-title">Indoor/Outdoor</div> <!-- TODO -->
-      <multiselect
+      <inout
         class="multi" 
-        v-model="selected"
+        id="inout"
+        v-model="selectedInOut"
         :multiple="false" 
         :options="inOutOptions">
-      </multiselect>
+      </inout>
     </div>
   </div>
 </template>
@@ -64,15 +69,26 @@ import MultiSelect from 'vue-multiselect'
 
 export default {
 
-  components: { Multiselect: MultiSelect },
+  components: { 
+    descriptions: MultiSelect,
+    districts: MultiSelect,
+    days: MultiSelect,
+    weapons: MultiSelect,
+    inout: MultiSelect
+  },
   data () {
     return {
-      selected: null,
+      selectedDescriptions: null,
+      selectedDistricts: null,
+      selectedDays: null,
+      selectedWeapons: null,
+      selectedInOut: null,
+
       //TODO fix these
-      descriptionOptions: ['All', 'Arson', 'Assault', 'Burglary'],
-      districtOptions: ['All', '1', '2', '3'],
+      descriptionOptions: ['All', 'AGG. ASSAULT', 'BURGLARY', 'COMMON ASSAULT', 'LARCENY', 'ROBBERY - STREET'],
+      districtOptions: ['All', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'WESTERN'],
       dayOptions: ['All', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      weaponOptions: ['All', 'Gun', 'Knife', 'None'],
+      weaponOptions: ['All', 'FIREARM', 'HANDS', 'KNIFE', 'OTHER', 'NA'],
       inOutOptions: ['All', 'Indoor', 'Outdoor']
     }
   }
