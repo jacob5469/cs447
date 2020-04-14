@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Graph class="column" />
-    <Graph class="bar" />
   </div>
 </template>
 
