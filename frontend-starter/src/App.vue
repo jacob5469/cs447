@@ -16,6 +16,11 @@
         <router-view />
       </v-content>
     </v-app>
+    <div class="bottomTab">
+      <div class="bottomTabText">
+         <p>University of Maryland Baltimore County @ 2020</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -34,6 +39,19 @@
 
 .vcontent {
   z-index: 0;
+}
+
+.bottomTab {
+    margin-top: 60px;
+    background: orange;
+    width: 100%;
+    height: 4vw;
+}
+.bottomTabText {
+    color: white;
+    text-align: center;
+    position: relative;
+    top: 30%;
 }
 
 </style>
