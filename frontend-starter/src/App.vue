@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app id="inspire">
-      <v-app-bar color="orange" dark app>
+      <v-app-bar class="navbar" color="orange" dark app>
         <v-toolbar-title>Baltimore Crime Data</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-sm-and-down">
@@ -12,7 +12,7 @@
           <router-link to="/heatmap" tag="button">Heat Map</router-link>
         </v-toolbar-items>
       </v-app-bar>
-      <v-content>
+      <v-content class="vcontent">
         <router-view />
       </v-content>
     </v-app>
@@ -27,5 +27,13 @@
   text-align: center;
   color: #2c3e50;
 }
-</style>
 
+.navbar {
+  z-index: 9999;
+}
+
+.vcontent {
+  z-index: 0;
+}
+
+</style>
