@@ -39,7 +39,6 @@ export default class Heatmap extends Vue {
 .graphs {
   width: 80%;
   height: 100%;
-  background-color: yellow;
 }
 
 .sidebar {

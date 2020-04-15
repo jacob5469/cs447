@@ -15,12 +15,12 @@
       <v-content class="vcontent">
         <router-view />
       </v-content>
-    </v-app>
-    <div class="bottomTab">
-      <div class="bottomTabText">
-         <p>University of Maryland Baltimore County @ 2020</p>
+      <div class="bottomTab">
+        <div class="bottomTabText">
+          <p>University of Maryland Baltimore County @ 2020</p>
+        </div>
       </div>
-    </div>
+    </v-app>
   </div>
 </template>
 
@@ -34,19 +34,23 @@
 }
 
 .navbar {
-  z-index: 9999;
+  z-index: 9998;
+  position: relative;
 }
 
-.vcontent {
+.v-content {
   z-index: 0;
+  position: relative;
 }
 
 .bottomTab {
-    margin-top: 60px;
+    z-index: 9999;
+    //margin-top: 60px;
     background: orange;
     width: 100%;
     height: 4vw;
 }
+
 .bottomTabText {
     color: white;
     text-align: center;
