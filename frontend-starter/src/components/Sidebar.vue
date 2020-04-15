@@ -97,10 +97,7 @@ export default {
 
 <style scoped lang="scss">
 .sidebar {
-  height: 100%;
   width: 20%;
-  position: fixed;
-  //right: 0px; //0px from right
   top: 64px;
   background-color: #dddddd; //TODO change?
 }
