@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       // Array will be automatically processed with visualization.arrayToDataTable function
-      chartType: "BarChart",
+      //chartType: { type },
       chartData: [
         ['Year', 'Sales', 'Expenses', 'Profit'],
         ['2014', 1000, 400, 200],
