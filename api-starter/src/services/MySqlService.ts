@@ -27,7 +27,7 @@ export class MySqlService {
      * @param query A mySQL query as a String
      */
     // TODO Make method private once getLatestData and getData are fully implemented
-    query(query: string): Promise<any> {
+    private query(query: string): Promise<any> {
 
         return new Promise<any>((resolve, reject) => {
 
@@ -42,6 +42,7 @@ export class MySqlService {
 
     // Method stub to get the record with the latest crimetime and crimedate
 
+<<<<<<< HEAD
     // INSERT INTO `vbcd` VALUES (1,'2020-03-28','03:00:00','3JF','4200 FALLSTAFF RD','ROBBERY - RESIDENCE','I','FIREARM','631','NORTHWEST','FALLSTAFF',-76.71127351,39.36068047,'ROW/TOWNHOUSE-OCC','',1)
     async getLatestData() : Promise<{date:string,time:string}> {
         const queryResult = (await this.query("SELECT CrimeDate,CrimeTime FROM vbcd ORDER BY CrimeDate DESC,CrimeTime DESC LIMIT 1"))[0];
@@ -52,6 +53,15 @@ export class MySqlService {
 
     // Method stub to get data from our database using the parameters of a request
     
+=======
+    async getNewestData(): Promise<{ date: string, time: string }> {
+        const queryResult = (await this.query("SELECT crimedate,crimetime FROM vbcd ORDER BY crimedate DESC,crimetime DESC LIMIT 1"))[0];
+        if(!queryResult) return {date:"0001-01-01",time:"00:00:00"}
+        return { date: new Date(queryResult.crimedate).toISOString().split("T")[0], time: queryResult.crimetime };
+    }
+
+    // Method stub to get data from our database using the parameters of a request
+>>>>>>> c8ca852bd79a74b90297625520af573c0a87ca53
     async getData(params: ApiRequest["body"]) {
         
         // Variables for a conditioned query
@@ -186,6 +196,38 @@ export class MySqlService {
         //console.log(queryResult);
 
         return queryResult;
+    }
+
+    async insertDataRows(data: any) {
+
+        let insertString = "INSERT INTO `vbcd` (crimedate,crimetime,crimecode,location,description,inside_outside,weapon,post,district,neighborhood,longitude,latitude,premise,total_incidents) VALUES ";
+
+        for (const row of data) {
+
+            for(const item of Object.keys(row)) {
+                row[item] = row[item].replace(/"/g,"'");
+            }
+
+            insertString += "\n(" +
+                (row.crimedate ? "\"" +new Date(row.crimedate).toISOString().split("T")[0] + "\"" : "NULL") + "," +
+                (row.crimetime ? "\"" +row.crimetime +"\"" : "\"00:00:00\"") +"," +
+                (row.crimecode ? "\"" + row.crimecode  + "\"" : "NULL") + "," +
+                (row.location ? "\"" + row.location  + "\"" : "NULL") + "," +
+                (row.description ? "\"" + row.description + "\"" : "NULL") + "," +
+                (row.inside_outside ? "\"" + row.inside_outside.substring(0,1).toUpperCase() + "\"" : "NULL") + "," +
+                (row.weapon ? "\"" + row.weapon + "\"" : "NULL") + "," +
+                (row.post ? "\"" + row.post + "\"" : "NULL") + "," +
+                (row.district ? "\"" + row.district + "\"" : "NULL") + "," +
+                (row.neighborhood ? "\"" + row.neighborhood + "\"" : "NULL") + "," +
+                (row.longitude || "NULL") + "," +
+                (row.latitude || "NULL") + "," +
+                (row.premise ? "\"" + row.premise + "\"" : "NULL") + "," +
+                row.total_incidents +
+                "),"
+        }
+        insertString = insertString.substring(0, insertString.length - 1);
+        await this.query(insertString);
+
     }
 
 }

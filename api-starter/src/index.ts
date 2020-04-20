@@ -2,41 +2,21 @@ import express from "express";
 import "module-alias/register";
 import { initialize } from "express-openapi";
 import { MySqlService } from "@services/MySqlService";
+import { SodaService } from "@services/SodaService";
 import apiDoc from "./apiDoc";
 import swaggerUi from "swagger-ui-express";
-import Soda from "types/Soda";
 import bodyParser from "body-parser";
 
 require("dotenv").config();
 const pw = process.env.DB_PASSWORD;
 console.log(pw);
 
-/*
-DB_PASSWORD=
-DB_NAME=
-*/
-
 const mySqlService = new MySqlService(process.env.DB_PASSWORD, process.env.DB_NAME);
-
-mySqlService.query("SELECT * FROM vbcd LIMIT 2");
-
-const soda: Soda = require("soda-js");
+const sodaService = new SodaService();
 
 const app = express();
 
 const router = express.Router();
-
-// Create a data consumer for the baltimore city dataset 
-// A Soda service will probably be created to facilitate all the soda stuff
-
-const consumer = new soda.Consumer("data.baltimorecity.gov");
-
-consumer.query().limit(1000000000).withDataset("wsfq-mvij").where(soda.expr.eq("CrimeTime", "00:30:00"), soda.expr.eq("CrimeTime", "00:30:00"))
-    .getRows().on("success", function (rows: any) {
-
-        console.log(rows.length);
-
-    });
 
 app.use(router);
 app.use(bodyParser.json());
@@ -57,16 +37,14 @@ const openapi = initialize({
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(openapi.apiDoc));
 
-// app.use(((err, req, res) => {
-//     res.status(err.status).json(err);
-// }) as express.ErrorRequestHandler);
-
 app.listen(3000, () => console.log("Server listening on port 3000"));
 
 setInterval(async () => {
 
-    const latestData = await mySqlService.getLatestData();
+    const latestData = await mySqlService.getNewestData();
+    const latestSodaData = await sodaService.getDataNewerThan(latestData);
 
+<<<<<<< HEAD
     // Test filters
     // 4/20: should return "... 442326 more items"
     const apiReq = {
@@ -89,6 +67,12 @@ setInterval(async () => {
 
     console.log(latestData);
     console.log(filterData);
+=======
+    if(latestSodaData.length > 0) {
+>>>>>>> c8ca852bd79a74b90297625520af573c0a87ca53
 
+        await mySqlService.insertDataRows(latestSodaData);
 
-}, 3000)
+    }
+
+}, 30000)
