@@ -8,6 +8,8 @@ import Soda from "types/Soda";
 import bodyParser from "body-parser";
 
 require("dotenv").config();
+const pw = process.env.DB_PASSWORD;
+console.log(pw);
 
 /*
 DB_PASSWORD=
@@ -65,7 +67,28 @@ setInterval(async () => {
 
     const latestData = await mySqlService.getLatestData();
 
+    // Test filters
+    // 4/20: should return "... 442326 more items"
+    const apiReq = {
+
+        weapon: ["NA"],
+        premise: ["Street"],
+        crimedate: ["2020-04-04", "2014-01-14"],
+        crimetime: ["22:00:00", "13:00:00"]
+        // crimetime: string[],
+        // locations: string[],
+        // descriptions: string[],
+        // inside: string[],
+        // weapons: string[],
+        // districts: string[],
+
+
+    };
+
+    const filterData = await mySqlService.getData(apiReq);
+
     console.log(latestData);
+    console.log(filterData);
 
 
 }, 3000)
