@@ -44,32 +44,7 @@ setInterval(async () => {
     const latestData = await mySqlService.getNewestData();
     const latestSodaData = await sodaService.getDataNewerThan(latestData);
 
-<<<<<<< HEAD
-    // Test filters
-    // 4/20: should return "... 442326 more items"
-    const apiReq = {
-
-        weapon: ["NA"],
-        premise: ["Street"],
-        crimedate: ["2020-04-04", "2014-01-14"],
-        crimetime: ["22:00:00", "13:00:00"]
-        // crimetime: string[],
-        // locations: string[],
-        // descriptions: string[],
-        // inside: string[],
-        // weapons: string[],
-        // districts: string[],
-
-
-    };
-
-    const filterData = await mySqlService.getData(apiReq);
-
-    console.log(latestData);
-    console.log(filterData);
-=======
     if(latestSodaData.length > 0) {
->>>>>>> c8ca852bd79a74b90297625520af573c0a87ca53
 
         await mySqlService.insertDataRows(latestSodaData);
 
