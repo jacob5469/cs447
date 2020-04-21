@@ -46,6 +46,8 @@ setInterval(async () => {
 
         await mySqlService.insertDataRows(latestSodaData);
 
+        console.log("Added new data to database");
+
     }
 
-}, 30000)
+}, 10000)

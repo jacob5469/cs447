@@ -27,7 +27,7 @@ export class MySqlService {
      * @param query A mySQL query as a String
      */
     // TODO Make method private once getLatestData and getData are fully implemented
-    private query(query: string): Promise<any> {
+    query(query: string): Promise<any> {
 
         return new Promise<any>((resolve, reject) => {
 
