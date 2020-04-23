@@ -40,21 +40,6 @@ app.listen(3000, () => console.log("Server listening on port 3000"));
 
 setInterval(async () => {
 
-    const apiReq = {
-
-
-        // premise: ["a","b","c","d"],
-        crimedate: ["2014-01-14", "2020-04-04"],
-        crimetime: ["13:00:00", "22:00:00"],
-        // locations: ["a","b","c","d"],
-        // descriptions: ["a"],
-        // inside: ["I"],
-        // weapons: ["a","b","c","d"],
-        // districts: string[],
-
-
-    };
-
     const latestData = await mySqlService.getNewestData();
     const latestSodaData = await sodaService.getDataNewerThan(latestData);
 
