@@ -4,8 +4,6 @@ import { Request } from "express";
 export interface ApiRequest extends Request {
 
     body: {
-
-        weapon? : string[];
         crimedate?: string[];
         crimetime? : string[];
         locations?: string[];
@@ -13,6 +11,8 @@ export interface ApiRequest extends Request {
         inside?: string[];
         districts?: string[];
         premise?: string[];
+        weapons? : string[];
+        [index:string]:string[]; // States that this can be indexed by a string to get a string[] 
 
     }
 

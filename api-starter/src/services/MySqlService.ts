@@ -6,6 +6,7 @@ import { ApiRequest } from "@defs/ApiRequest";
 export class MySqlService {
 
     private readonly connection: mysql.Connection;
+    private readonly conditionSeparator = "asdf";
 
     constructor(db_password: string, db_name: string) {
 
@@ -44,16 +45,32 @@ export class MySqlService {
 
     async getNewestData(): Promise<{ date: string, time: string }> {
         const queryResult = (await this.query("SELECT crimedate,crimetime FROM vbcd ORDER BY crimedate DESC,crimetime DESC LIMIT 1"))[0];
-        if(!queryResult) return {date:"0001-01-01",time:"00:00:00"}
+        if (!queryResult) return { date: "0001-01-01", time: "00:00:00" }
         return { date: new Date(queryResult.crimedate).toISOString().split("T")[0], time: queryResult.crimetime };
+    }
+
+    private orCondition(sqlField: string, params: string[]): string {
+        
+        let value = "";
+
+        params.forEach(element => {
+
+            value += sqlField + " = '" + element + "' OR ";
+
+        })
+
+        value = value.replace(/OR([^OR]*)$/, "");
+        value = this.conditionSeparator + " ( " + value + ") ";
+
+        return value;
+    
     }
 
     // Method stub to get data from our database using the parameters of a request
     async getData(params: ApiRequest["body"]) {
-        
+
         // Variables for a conditioned query
         let conditions: string = "";
-        let value: string = "";
 
         /*
         ** Data extraction from 9 possible parameters
@@ -64,33 +81,12 @@ export class MySqlService {
         */
 
         /*
-        ** Weapon
-        */
-        if (params.weapon) {
-            params.weapon.forEach(element => {
-                value += "Weapon = '" + element + "'";
-            });
-            value = value.replace("'W", "' OR W");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
-        }
-
-        /*
         ** CrimeDate
         ** Assumes only two dates are passed in a certain order
         ** Second regular expression finds an instance of "="
         */
-        if (params.crimedate) {
-            params.crimedate.forEach(element => {
-                value += "CrimeDate = '" + element + "'";
-            });
-            value = value.replace('=', "<=");
-            value = value.replace(/[^<]=/, " >=");
-            value = value.replace("'C", "' AND C");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+        if (params.crimedate && params.crimedate.length == 2) {
+          conditions += this.conditionSeparator + " ( CrimeDate Between '" + params.crimedate[0] + "' AND '" + params.crimedate[1] + "')";
         }
 
         /*
@@ -98,89 +94,61 @@ export class MySqlService {
         ** Assumes only two times are passed in a certain order
         ** Second regular expression finds an instance of "="
         */
-        if (params.crimetime) {
-            params.crimetime.forEach(element => {
-                value += "CrimeTime = '" + element + "'";
-            });
-            value = value.replace('=', "<=");
-            value = value.replace(/[^<]=/, " >=");
-            value = value.replace("'C", "' AND C");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+       if (params.crimetime && params.crimetime.length == 2) {
+            conditions += " " + this.conditionSeparator + " ( CrimeTime Between '" + params.crimetime[0] + "' AND '" + params.crimetime[1] + "') ";
         }
 
         /*
         ** Location
         */
         if (params.locations) {
-            params.locations.forEach(element => {
-                value += "Location = '" + element + "'";
-            });
-            value = value.replace("'L", "' OR L");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+            conditions += this.orCondition("Location", params.locations);
         }
 
         /*
         ** Description
         */
         if (params.descriptions) {
-            params.descriptions.forEach(element => {
-                value += "Description = '" + element + "'";
-            });
-            value = value.replace("'D", "' OR D");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+            conditions += this.orCondition("Description", params.descriptions);
         }
 
         /*
         ** Inside
         */
         if (params.inside) {
-            params.inside.forEach(element => {
-                value += "Inside_Outside = '" + element + "'";
-            });
-            value = value.replace("'I", "' OR I");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+            conditions += this.orCondition("Inside_Outside", params.inside);
         }
+
 
         /*
         ** District
         */
         if (params.districts) {
-            params.districts.forEach(element => {
-                value += "District = '" + element + "'";
-            });
-            value = value.replace("'D", "' OR D");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+            conditions += this.orCondition("District", params.districts);
         }
-        
+
         /*
         ** Premise
         */
         if (params.premise) {
-            params.premise.forEach(element => {
-                value += "Premise = '" + element + "'";
-            });
-            value = value.replace("'P", "' OR P");
-            value = "asdf (" + value + ") ";
-            conditions += value;
-            value = "";
+            conditions += this.orCondition("Premise", params.premise);
+        }
+
+        /*
+        ** Weapon
+        */
+
+        if (params.weapons) {
+            conditions += this.orCondition("Weapon", params.weapons);
         }
 
         // Joins filters for querying
-        conditions = conditions.replace("asdf", "");
-        conditions = conditions.split("asdf").join("AND");
+        conditions = conditions.replace(this.conditionSeparator,"");
+        conditions = conditions.split(this.conditionSeparator).join("AND");
 
-        const queryResult = (await this.query("SELECT * FROM vbcd WHERE (" + conditions + ") ORDER BY CrimeDate DESC,CrimeTime DESC"));
-        //console.log(queryResult);
+        const query = "SELECT * FROM vbcd WHERE (" + conditions + ") ORDER BY CrimeDate DESC,CrimeTime DESC";
+
+        const queryResult = (await this.query(query));
 
         return queryResult;
     }
@@ -191,17 +159,17 @@ export class MySqlService {
 
         for (const row of data) {
 
-            for(const item of Object.keys(row)) {
-                row[item] = row[item].replace(/"/g,"'");
+            for (const item of Object.keys(row)) {
+                row[item] = row[item].replace(/"/g, "'");
             }
 
             insertString += "\n(" +
-                (row.crimedate ? "\"" +new Date(row.crimedate).toISOString().split("T")[0] + "\"" : "NULL") + "," +
-                (row.crimetime ? "\"" +row.crimetime +"\"" : "\"00:00:00\"") +"," +
-                (row.crimecode ? "\"" + row.crimecode  + "\"" : "NULL") + "," +
-                (row.location ? "\"" + row.location  + "\"" : "NULL") + "," +
+                (row.crimedate ? "\"" + new Date(row.crimedate).toISOString().split("T")[0] + "\"" : "NULL") + "," +
+                (row.crimetime ? "\"" + row.crimetime + "\"" : "\"00:00:00\"") + "," +
+                (row.crimecode ? "\"" + row.crimecode + "\"" : "NULL") + "," +
+                (row.location ? "\"" + row.location + "\"" : "NULL") + "," +
                 (row.description ? "\"" + row.description + "\"" : "NULL") + "," +
-                (row.inside_outside ? "\"" + row.inside_outside.substring(0,1).toUpperCase() + "\"" : "NULL") + "," +
+                (row.inside_outside ? "\"" + row.inside_outside.substring(0, 1).toUpperCase() + "\"" : "NULL") + "," +
                 (row.weapon ? "\"" + row.weapon + "\"" : "NULL") + "," +
                 (row.post ? "\"" + row.post + "\"" : "NULL") + "," +
                 (row.district ? "\"" + row.district + "\"" : "NULL") + "," +
