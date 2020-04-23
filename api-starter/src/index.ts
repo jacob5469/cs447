@@ -40,13 +40,23 @@ app.listen(3000, () => console.log("Server listening on port 3000"));
 
 setInterval(async () => {
 
-    const latestData = await mySqlService.getNewestData();
-    const latestSodaData = await sodaService.getDataNewerThan(latestData);
+    try {
 
-    if(latestSodaData.length > 0) {
+        const latestData = await mySqlService.getNewestData();
+        const latestSodaData = await sodaService.getDataNewerThan(latestData);
 
-        await mySqlService.insertDataRows(latestSodaData);
+        if (latestSodaData.length > 0) {
+
+            await mySqlService.insertDataRows(latestSodaData);
+
+        }
+
+    } catch (e) {
+
+        console.log(e);
 
     }
+
+
 
 }, 3000)
