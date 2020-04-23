@@ -3,9 +3,9 @@ import "module-alias/register";
 import { initialize } from "express-openapi";
 import { MySqlService } from "@services/MySqlService";
 import { SodaService } from "@services/SodaService";
+import cors from "cors";
 import apiDoc from "./apiDoc";
 import swaggerUi from "swagger-ui-express";
-import bodyParser from "body-parser";
 
 require("dotenv").config();
 
@@ -17,7 +17,9 @@ const app = express();
 const router = express.Router();
 
 app.use(router);
-app.use(bodyParser.json());
+
+app.use(express.json());
+app.use(cors());
 
 const openapi = initialize({
     apiDoc: apiDoc,
@@ -30,7 +32,6 @@ const openapi = initialize({
     }
 });
 
-
 // Setup swagger UI at /api using the doc on the openapi object
 
 app.use("/doc", swaggerUi.serve, swaggerUi.setup(openapi.apiDoc));
@@ -41,9 +42,9 @@ setInterval(async () => {
 
     const apiReq = {
 
-        
+
         // premise: ["a","b","c","d"],
-        crimedate: ["2014-01-14","2020-04-04"] ,
+        crimedate: ["2014-01-14", "2020-04-04"],
         crimetime: ["13:00:00", "22:00:00"],
         // locations: ["a","b","c","d"],
         // descriptions: ["a"],
@@ -53,10 +54,6 @@ setInterval(async () => {
 
 
     };
-
-    const filterData = await mySqlService.getData(apiReq);
-
-    // console.log(filterData);
 
     const latestData = await mySqlService.getNewestData();
     const latestSodaData = await sodaService.getDataNewerThan(latestData);

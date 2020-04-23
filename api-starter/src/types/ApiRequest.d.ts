@@ -10,7 +10,7 @@ export interface ApiRequest extends Request {
         descriptions?: string[];
         inside?: string[];
         districts?: string[];
-        premise?: string[];
+        premises?: string[];
         weapons? : string[];
         [index:string]:string[]; // States that this can be indexed by a string to get a string[] 
 
