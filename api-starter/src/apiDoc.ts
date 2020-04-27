@@ -6,15 +6,58 @@ export default {
 		"version": "1.0.0"
 	},
 	definitions: {
-		Message: {
+		CrimeFilters: {
 			"type": "object",
 			"properties": {
-				"message": {
-					"description": "An object with a message in it",
-					"type": "string"
-				}
+				"crimedate": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"crimetime": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"locations": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"descriptions": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"inside": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"districts": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"premises": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
+				"weapons": {
+					"type": "array",
+					"items": {
+						type: "string"
+					}
+				},
 			},
-			"required": ["message"]
 		}
 	},
 	paths: {}
