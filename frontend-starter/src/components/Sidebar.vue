@@ -67,32 +67,39 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import MultiSelect from 'vue-multiselect'
 
-export default {
-
-  components: { 
-    descriptions: MultiSelect,
-    districts: MultiSelect,
-    days: MultiSelect,
-    weapons: MultiSelect,
-    inout: MultiSelect
-  },
-  data () {
-    return {
-      selectedDescriptions: null,
-      selectedDistricts: null,
-      selectedDays: null,
-      selectedWeapons: null,
-      selectedInOut: null,
-
-      //TODO fix these
-      descriptionOptions: ['All', 'AGG. ASSAULT', 'BURGLARY', 'COMMON ASSAULT', 'LARCENY', 'ROBBERY - STREET'],
-      districtOptions: ['All', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'WESTERN'],
-      dayOptions: ['All', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-      weaponOptions: ['All', 'FIREARM', 'HANDS', 'KNIFE', 'OTHER', 'NA'],
-      inOutOptions: ['All', 'Indoor', 'Outdoor']
-    }
+@Component({
+  components: {
+    descriptions:MultiSelect,
+    districts:MultiSelect,
+    days:MultiSelect,
+    weapons:MultiSelect,
+    inout:MultiSelect,
   }
+})
+export default class Sidebar extends Vue {
+
+      selectedDescriptions = null;
+      selectedDistricts = null;
+      selectedDays = null;
+      selectedWeapons = null;
+      selectedInOut = null;
+      descriptionOptions = ['All', 'AGG. ASSAULT', 'BURGLARY', 'COMMON ASSAULT', 'LARCENY', 'ROBBERY - STREET'];
+      districtOptions = ['All', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'WESTERN'];
+      dayOptions = ['All', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      weaponOptions = ['All', 'FIREARM', 'HANDS', 'KNIFE', 'OTHER', 'NA'];
+      inOutOptions = ['All', 'Indoor', 'Outdoor'];
+
+      mounted() {
+
+        console.log("");
+
+        this.$emit("Some_event", "Some custom event");
+
+      }
+
+
 }
+
 </script>
 
 <style scoped lang="scss">

@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="main-view">
-      <Map class="map"/>
+      <Map ref="map" class="map"/>
       <Graphs class="graphs"/>
     </div>
-    <Sidebar class="sidebar" />
+    <Sidebar @Some_event="doSomething" ref="sidebar" class="sidebar" />
   </div>
 </template>
 
@@ -22,6 +22,31 @@ import Graphs from "../components/Graphs.vue";
   }
 })
 export default class Heatmap extends Vue {
+
+
+  mounted() {
+     
+
+    console.log("");
+
+
+  }
+
+  doSomething(...args) {
+
+
+    console.log(args);
+
+    console.log((this.$refs.map as any).testFunction(args));
+
+
+  }
+
+  constructor() {
+
+    super();
+
+  }
 }
 </script>
 
