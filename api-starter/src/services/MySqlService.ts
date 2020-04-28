@@ -50,7 +50,7 @@ export class MySqlService {
     }
 
     private orCondition(sqlField: string, params: string[]): string {
-        
+
         let value = "";
 
         params.forEach(element => {
@@ -63,7 +63,7 @@ export class MySqlService {
         value = this.conditionSeparator + " ( " + value + ") ";
 
         return value;
-    
+
     }
 
     // Method stub to get data from our database using the parameters of a request
@@ -86,7 +86,7 @@ export class MySqlService {
         ** Second regular expression finds an instance of "="
         */
         if (params.crimedate && params.crimedate.length == 2) {
-          conditions += this.conditionSeparator + " ( CrimeDate Between '" + params.crimedate[0] + "' AND '" + params.crimedate[1] + "')";
+            conditions += this.conditionSeparator + " ( CrimeDate Between '" + params.crimedate[0] + "' AND '" + params.crimedate[1] + "')";
         }
 
         /*
@@ -94,7 +94,7 @@ export class MySqlService {
         ** Assumes only two times are passed in a certain order
         ** Second regular expression finds an instance of "="
         */
-       if (params.crimetime && params.crimetime.length == 2) {
+        if (params.crimetime && params.crimetime.length == 2) {
             conditions += " " + this.conditionSeparator + " ( CrimeTime Between '" + params.crimetime[0] + "' AND '" + params.crimetime[1] + "') ";
         }
 
@@ -128,27 +128,31 @@ export class MySqlService {
         }
 
         /*
+       ** Neighborhood
+       */
+        if (params.neighborhoods) {
+            conditions += this.orCondition("Neighborhood", params.neighborhoods);
+        }
+
+        /*
         ** Premise
         */
-        if (params.premise) {
+        if (params.premises) {
             conditions += this.orCondition("Premise", params.premises);
         }
 
         /*
         ** Weapon
         */
-
         if (params.weapons) {
             conditions += this.orCondition("Weapon", params.weapons);
         }
 
         // Joins filters for querying
-        conditions = conditions.replace(this.conditionSeparator,"");
+        conditions = conditions.replace(this.conditionSeparator, "");
         conditions = conditions.split(this.conditionSeparator).join("AND");
 
         const query = "SELECT * FROM vbcd WHERE (" + conditions + ") ORDER BY CrimeDate DESC,CrimeTime DESC";
-
-        console.log(query);
 
         const queryResult = (await this.query(query));
 
