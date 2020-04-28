@@ -2,7 +2,7 @@ export default {
 	swagger: "2.0",
 	basePath: "/api",
 	info: {
-		"title": "A getting started API.",
+		"title": "Baltimore Crime Data API",
 		"version": "1.0.0"
 	},
 	definitions: {
@@ -65,7 +65,7 @@ export default {
 				},
 			},
 			example: {
-				
+
 				crimedate: ["2014-01-14", "2020-04-04"],
 				crimetime: ["13:00:00", "22:00:00"],
 				descriptions: ["LARCENY", "BURGLARY"],

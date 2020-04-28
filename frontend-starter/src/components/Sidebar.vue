@@ -119,7 +119,13 @@ export default class Sidebar extends Vue {
       console.log(data);
     });
   }
+
+  mounted() {
+    console.log("");
+    this.$emit("Some_event", "Some custom event");
+  }
 }
+
 </script>
 
 <style scoped lang="scss">

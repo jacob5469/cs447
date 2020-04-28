@@ -54,6 +54,13 @@ export default class Map extends Vue {
     this.setupCanvas();
   }
 
+  testFunction(...args) {
+
+
+    console.log(args)
+
+  }
+
   setupCanvas() {
     const map = L.map("map-canvas").setView([39.2904, -76.6122], 12);
 
