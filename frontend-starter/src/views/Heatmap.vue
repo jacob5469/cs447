@@ -37,7 +37,7 @@ export default class Heatmap extends Vue {
 
     console.log(args);
 
-    console.log((this.$refs.map as any).testFunction(args));
+    console.log((this.$refs.map as Map).testFunction(args));
 
 
   }
