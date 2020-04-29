@@ -51,9 +51,9 @@ export default class Graph extends Vue {
     ["", 68, 477, 80]
   ];
   chartOptions2 = {
-        title: "Area distribution",
-        colorAxis: { colors: ["yellow", "red"] }
-      }
+    title: "Area distribution",
+    colorAxis: { colors: ["yellow", "red"] }
+  };
 
   onChartReady(chart, google) {
     const query = new google.visualization.Query(
@@ -69,5 +69,4 @@ export default class Graph extends Vue {
     });
   }
 }
-
 </script>

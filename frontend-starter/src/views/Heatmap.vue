@@ -1,10 +1,9 @@
 <template>
   <div>
     <div class="main-view">
-      <Map class="map"/>
-      <Graphs class="graphs"/>
+      <Map ref="map" class="map" />
     </div>
-    <Sidebar class="sidebar" />
+    <Sidebar @filterData="filterMapData" ref="sidebar" class="sidebar" />
   </div>
 </template>
 
@@ -22,6 +21,33 @@ import Graphs from "../components/Graphs.vue";
   }
 })
 export default class Heatmap extends Vue {
+  mounted() {
+    this.configureMap([]);
+  }
+
+  async filterMapData(filters: any) {
+    // Await for the response, then await for the response body to give back JSON
+    const data = await (
+      await fetch("http://localhost:3000/api/map/data", {
+        headers: { "Content-Type": "application/json" },
+        method: "post",
+        body: filters
+      })
+    ).json();
+
+    this.configureMap(data);
+  }
+
+  configureMap(mapData: any) {
+    const map = this.$refs.map as Map;
+    map.resetMap();
+    map.setMapData(mapData);
+    map.addHeatmap();
+  }
+
+  constructor() {
+    super();
+  }
 }
 </script>
 
@@ -33,18 +59,18 @@ export default class Heatmap extends Vue {
 
 .map {
   width: 80%;
-  height: 100%;
+  height: 10%;
 }
 
 .graphs {
   width: 80%;
-  height: 100%;
+  height: 80%;
 }
 
 .sidebar {
   width: 20%;
   height: 100%;
-  position: fixed;
+  position: absolute;
   right: 0px;
 }
 </style>

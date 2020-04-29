@@ -28,7 +28,7 @@ export class MySqlService {
      * @param query A mySQL query as a String
      */
     // TODO Make method private once getLatestData and getData are fully implemented
-    private query(query: string): Promise<any> {
+    query(query: string): Promise<any> {
 
         return new Promise<any>((resolve, reject) => {
 
@@ -69,6 +69,13 @@ export class MySqlService {
     // Method stub to get data from our database using the parameters of a request
     async getData(params: ApiRequest["body"]) {
 
+        // No filters, get all the data
+        if(!Object.keys(params).length) {
+
+            return await this.query("SELECT * FROM VBCD ORDER BY CrimeDate DESC,CrimeTime DESC");
+
+        }
+
         // Variables for a conditioned query
         let conditions: string = "";
 
@@ -87,6 +94,12 @@ export class MySqlService {
         */
         if (params.crimedate && params.crimedate.length == 2) {
             conditions += this.conditionSeparator + " ( CrimeDate Between '" + params.crimedate[0] + "' AND '" + params.crimedate[1] + "')";
+        }
+
+        if(params.crimedays) {
+
+            conditions += this.orCondition("WEEKDAY(CrimeDate)",params.crimedays);
+
         }
 
         /*
