@@ -5,6 +5,7 @@ export interface ApiRequest extends Request {
 
     body: {
         crimedate?: string[];
+        crimedays?: string[];
         crimetime? : string[];
         locations?: string[];
         descriptions?: string[];

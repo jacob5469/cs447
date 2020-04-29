@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Vue from 'vue';
+import Vue from "vue";
 import Graph from "./Graph.vue";
 
 export default {
   components: { Graph }
-}
+};
 </script>
 
 <style>
@@ -20,7 +20,7 @@ export default {
 }
 
 .column {
-    width: 100%;
+  width: 100%;
   background-color: orange;
 }
 
@@ -28,5 +28,4 @@ export default {
   width: 100%;
   background-color: grey;
 }
-
 </style>

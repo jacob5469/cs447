@@ -1,79 +1,98 @@
 <template>
-  <div class="sidebar">
-    <div>
-      <div class="section-title">Global Filter Settings</div>
+  <div>
+    <v-container>
       <div>
-        <div class="small-title">Time Frame</div> <!-- TODO add a dropdown for custom dates or all dates -->
+        <div class="section-title">Global Filter Settings</div>
+        <br />
+
+        <div class="small-title">Time Frame</div>
+        <br />
+        <br />
+        <v-date-picker
+          title="Crime date range"
+          no-title
+          v-model="selectedDates"
+          style="bottom: 40px;"
+          range
+        ></v-date-picker>
+
+        <v-spacer />
+
         <div>
-          <input type="date" text="Start"/>
+          <!-- <div class="small-title">Descriptions</div>  -->
+          <v-combobox
+            class="multi"
+            v-model="selectedDescriptions"
+            :items="descriptionOptions"
+            multiple
+            outlined
+            chips
+            label="Crime Description"
+          ></v-combobox>
         </div>
         <div>
-          <input type="date" text="End" />
+          <!-- <div class="small-title">Districts</div> -->
+          <v-combobox
+            class="multi"
+            v-model="selectedDistricts"
+            :items="districtOptions"
+            multiple
+            outlined
+            chips
+            label="Crime District"
+          ></v-combobox>
+        </div>
+        <div>
+          <!-- <div class="small-title">Days</div>  -->
+          <v-combobox
+            class="multi"
+            v-model="selectedDays"
+            :items="dayOptions"
+            multiple
+            outlined
+            chips
+            label="Days"
+          ></v-combobox>
+        </div>
+        <div>
+          <!-- <div class="small-title">Weapons</div>  -->
+          <v-combobox
+            class="multi"
+            v-model="selectedWeapons"
+            :items="weaponOptions"
+            multiple
+            outlined
+            chips
+            label="Crime Weapon"
+          ></v-combobox>
+        </div>
+        <div>
+          <!-- <div class="small-title">Indoor/Outdoor</div>  -->
+          <v-combobox
+            class="multi"
+            v-model="selectedInOut"
+            :items="inOutOptions"
+            multiple
+            outlined
+            chips
+            label="Indoor/Outdoor Crime"
+          ></v-combobox>
         </div>
       </div>
-      <div>
-        <div class="small-title">Descriptions</div> <!-- TODO -->
-        <descriptions
-          class="multi" 
-          id="descriptions"
-          v-model="selectedDescriptions"
-          :multiple="true" 
-          :options="descriptionOptions">
-        </descriptions>
+      <div class="btn-div">
+        <v-btn id="submit" v-on:click="filter">Filter</v-btn>
       </div>
-      <div>
-        <div class="small-title">Districts</div> <!-- TODO -->
-        <districts
-          class="multi" 
-          id="districts"
-          v-model="selectedDistricts"
-          :multiple="true" 
-          :options="districtOptions">
-        </districts>
-      </div>
-      <div>
-        <div class="small-title">Days</div> <!-- TODO -->
-        <days
-          class="multi" 
-          id="days"
-          v-model="selectedDays"
-          :multiple="true" 
-          :options="dayOptions">
-        </days>
-      </div>
-      <div>
-        <div class="small-title">Weapons</div> <!-- TODO -->
-        <weapons
-          class="multi"
-          id="weapons" 
-          v-model="selectedWeapons"
-          :multiple="true" 
-          :options="weaponOptions">
-        </weapons>
-      </div>
-      <div>
-        <div class="small-title">Indoor/Outdoor</div> <!-- TODO -->
-        <inout
-          class="multi" 
-          id="inout"
-          v-model="selectedInOut"
-          :multiple="false" 
-          :options="inOutOptions">
-        </inout>
-      </div>
-    </div>
-    <div class="btn-div">
-      <v-btn id="submit" v-on:click="filter">Filter</v-btn>
-    </div>
+    </v-container>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import MultiSelect from 'vue-multiselect'
+import MultiSelect from "vue-multiselect";
 
 @Component({
   components: {
+    MultiSelect,
     descriptions: MultiSelect,
     districts: MultiSelect,
     days: MultiSelect,
@@ -82,102 +101,100 @@ import MultiSelect from 'vue-multiselect'
   }
 })
 export default class Sidebar extends Vue {
-  private selectedDescriptions = null;
-  private selectedDistricts = null;
-  private selectedDays = null;
-  private selectedWeapons = null;
-  private selectedInOut = null;
+  private selectedDescriptions: string[] = [];
+  private selectedDistricts: string[] = [];
+  private selectedDays: string[] = [];
+  private selectedDates: string[] = [];
+  private selectedWeapons: string[] = [];
+  private selectedInOut = "";
+  private menu = false;
+  private endDate = "";
 
   //TODO fix these
-  private descriptionOptions = ['All', 'AGG. ASSAULT', 'BURGLARY', 'COMMON ASSAULT', 'LARCENY', 'ROBBERY - STREET'];
-  private districtOptions = ['All', 'EASTERN', 'NORTHEAST', 'NORTHERN', 'NORTHWEST', 'SOUTHEAST', 'SOUTHERN', 'SOUTHWEST', 'WESTERN'];
-  private dayOptions = ['All', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  private weaponOptions = ['All', 'FIREARM', 'HANDS', 'KNIFE', 'OTHER', 'NA'];
-  private inOutOptions = ['All', 'Indoor', 'Outdoor'];
+  private descriptionOptions = [
+    "All",
+    "AGG. ASSAULT",
+    "BURGLARY",
+    "COMMON ASSAULT",
+    "LARCENY",
+    "ROBBERY - STREET"
+  ];
+  private districtOptions = [
+    "All",
+    "EASTERN",
+    "NORTHEAST",
+    "NORTHERN",
+    "NORTHWEST",
+    "SOUTHEAST",
+    "SOUTHERN",
+    "SOUTHWEST",
+    "WESTERN"
+  ];
+  private dayOptions = [
+    "All",
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ];
+  private weaponOptions = ["All", "FIREARM", "HANDS", "KNIFE", "OTHER", "NA"];
+  private inOutOptions = ["All", "Indoor", "Outdoor"];
 
   filter() {
-    const mockRequest = `{
-      "crimedate": [
-        "2014-01-14",
-        "2020-04-04"
-      ],
-      "crimetime": [
-        "13:00:00",
-        "22:00:00"
-      ],
-      "descriptions": [
-        "LARCENY",
-        "BURGLARY"
-      ],
-      "inside": [
-        "I"
-      ],
-      "districts": [
-        "NORTHEAST",
-        "WESTERN"
-      ],
-      "premises": [
-        "ROW/TOWNHOUSE-VAC"
-      ],
-      "neighborhoods": [
-        "FRANKLIN SQUARE",
-        "FRANKFORD"
-      ]
-    }`;
-    //console.log(mockRequest);
-    this.$emit("APIData", mockRequest);
-    // const json = JSON.stringify({
-    //     // crimedate: null,
-    //     // crimetime: null,
-    //     // locations: null,
-    //     descriptions: this.selectedDescriptions,
-    //     inside: this.selectedInOut,
-    //     districts: this.selectedDistricts,
-    //     //premises: null,
-    //     weapons: this.selectedWeapons
-    //   })
+    const request = {};
+
+    if (this.selectedDates.length == 2) {
+      request["crimedate"] = this.selectedDates;
+    }
+
+    if(this.selectedDays.length && !this.selectedDays.find(el => el === "All")) {
+
+      request["crimedays"] = this.selectedDays;
+
+    }
+
+    if (
+      this.selectedDescriptions.length &&
+      !this.selectedDescriptions.find(el => el === "All")
+    ) {
+      request["descriptions"] = this.selectedDescriptions;
+    }
+
+    if (
+      this.selectedDistricts.length &&
+      !this.selectedDistricts.find(el => el === "All")
+    ) {
+      request["districts"] = this.selectedDistricts;
+    }
+
+    if (
+      this.selectedWeapons.length &&
+      !this.selectedWeapons.find(el => el === "All")
+    ) {
+      request["weapons"] = this.selectedWeapons;
+    }
+
+    if (this.selectedInOut && this.selectedInOut != "All") {
+      request["inside"] = this.selectedInOut === "Indoor" ? ["I"] : ["O"];
+    }
+
+    this.$emit("filterData", JSON.stringify(request));
   }
 
   mounted() {
-    const mockRequest = `{
-      "crimedate": [
-        "2014-01-14",
-        "2020-04-04"
-      ],
-      "crimetime": [
-        "13:00:00",
-        "22:00:00"
-      ],
-      "descriptions": [
-        "LARCENY",
-        "BURGLARY"
-      ],
-      "inside": [
-        "I"
-      ],
-      "districts": [
-        "NORTHEAST",
-        "WESTERN"
-      ],
-      "premises": [
-        "ROW/TOWNHOUSE-VAC"
-      ],
-      "neighborhoods": [
-        "FRANKLIN SQUARE",
-        "FRANKFORD"
-      ]
-    }`;
-    this.$emit("APIData", mockRequest);
+    this.filter();
   }
 }
-
 </script>
 
 <style scoped lang="scss">
 .sidebar {
   width: 20%;
-  top: 64px;
-  background-color: #dddddd; //TODO change?
+  top: 0px;
+  background-color: #f0f0f0; //TODO change?
 }
 
 .section-title {
@@ -188,7 +205,7 @@ export default class Sidebar extends Vue {
 
 .small-title {
   /* font-size: 18px; */
-  font-weight:bold;
+  font-weight: bold;
 }
 
 .multi {

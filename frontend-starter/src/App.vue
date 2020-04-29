@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <v-app id="inspire">
+      <v-container fluid> 
       <v-app-bar class="navbar" color="orange" dark app>
         <v-toolbar-title>Baltimore Crime Data</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -14,12 +15,16 @@
       </v-app-bar>
       <v-content class="vcontent">
         <router-view />
+        
       </v-content>
-      <div class="bottomTab">
+     
+      </v-container>
+       <div class="bottomTab">
         <div class="bottomTabText">
           <p>University of Maryland Baltimore County @ 2020</p>
         </div>
       </div>
+      
     </v-app>
   </div>
 </template>
@@ -32,17 +37,14 @@
   text-align: center;
   color: #2c3e50;
 }
-
 .navbar {
   z-index: 9998;
   position: relative;
 }
-
 .v-content {
   z-index: 0;
   position: relative;
 }
-
 .bottomTab {
     z-index: 9999;
     //margin-top: 60px;
@@ -50,12 +52,10 @@
     width: 100%;
     height: 4vw;
 }
-
 .bottomTabText {
     color: white;
     text-align: center;
     position: relative;
     top: 30%;
 }
-
 </style>
