@@ -15,9 +15,9 @@ import * as L from "leaflet";
   }
 })
 export default class Map extends Vue {
-  private map: L.Map | any  = null;
+  private map: L.Map | any = null;
   // private heatLayer: L.HeatLayer = null;
-  
+
   //TODO DUMMY DATA - REMOVE ONCE BACKEND IS AVAILABLE
   //crimeid,crimedate,crimetime,crimecode,location,description,inside_outside,weapon,post,district,neighborhood,longitude,latitude,premise,total_incidents
   // private results = [
@@ -58,7 +58,6 @@ export default class Map extends Vue {
   }
 
   receiveMapData(args: any) {
-    console.log(args);
     //this.setupCanvas();
     //this.map.getPanes().markerPane.remove();
     //this.map.getPanes().shadowPane.remove();
@@ -68,7 +67,7 @@ export default class Map extends Vue {
   }
 
   setupCanvas(mapData: any) {
-    this.map = L.map("map-canvas")
+    this.map = L.map("map-canvas");
     this.map.setView([39.2904, -76.6122], 12);
 
     const tiles = L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
@@ -76,32 +75,33 @@ export default class Map extends Vue {
         '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    if (mapData)
-    {
+    if (mapData) {
       let addressPoints = 0 as any; //bad code
 
-      //Point columns in the database are backwards
-      //console.log(addressPoints);
-      //console.log(mapData);
       for (let i = 0; i < mapData.length; i++) {
-        if (mapData[i].latitude != null && mapData[i].longitude != null) {
-          // addressPoints[Object.keys(addressPoints).length] = [mapData[i].latitude, mapData[i].longitude];
-          const point: L.LatLngExpression = [Number(mapData[i].latitude), Number(mapData[i].longitude)]; 
+        if (mapData[i].latitude && mapData[i].longitude) {
+          const point: L.LatLngExpression = [
+            Number(mapData[i].latitude),
+            Number(mapData[i].longitude)
+          ];
           L.marker(point)
             .bindPopup("" + mapData[i].description)
             .addTo(this.map);
         } else {
           mapData.splice(i, 1);
+          i--;
         }
       }
 
-      addressPoints = mapData.map((p: any) => [p.latitude, p.longitude]);
+      addressPoints = mapData.map(
+        (p: any) => [p.latitude, p.longitude] as L.LatLngExpression
+      );
 
       const heatLayer = L.heatLayer(addressPoints, {
         radius: 60,
         blur: 60,
         minOpacity: 0.75
-      })
+      });
 
       heatLayer.addTo(this.map);
     }

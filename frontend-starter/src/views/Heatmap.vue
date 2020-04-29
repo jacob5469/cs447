@@ -23,17 +23,7 @@ import Graphs from "../components/Graphs.vue";
 })
 export default class Heatmap extends Vue {
 
-
-  mounted() {
-     
-
-    console.log("");
-
-
-  }
-
   passData(args: any) {
-    console.log(args);
     fetch('http://localhost:3000/api/data', {
       headers: { "Content-Type": "application/json" },
       method: 'post',

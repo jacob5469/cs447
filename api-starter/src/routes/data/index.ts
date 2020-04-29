@@ -10,7 +10,7 @@ export default function (mySqlService: MySqlService) {
 
     // This could be a POST with easy body parameters, but maybe more annoying to document or a GET with header parameters/form-encoded
     async function post(req: ApiRequest, res: Response, next: NextFunction) {
-        console.log(req.body);
+
         const queryResult = await mySqlService.getData(req.body);
 
         res.status(200).send(queryResult);
