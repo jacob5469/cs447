@@ -1,8 +1,10 @@
+const path = require("path");
+
 module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        leaflet: "C:\\cs447\\project\\frontend-starter\\node_modules\\leaflet"
+        leaflet: path.join(__dirname, 'node_modules/leaflet')
       }
     }
   },
