@@ -2,7 +2,6 @@
   <div>
     <div class="main-view">
       <Map ref="map" class="map"/>
-      <Graphs class="graphs"/>
     </div>
     <Sidebar @APIData="passData" ref="sidebar" class="sidebar" />
   </div>
