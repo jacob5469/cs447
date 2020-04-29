@@ -132,13 +132,13 @@ export default class Sidebar extends Vue {
   ];
   private dayOptions = [
     "All",
-    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
+    "Sunday",
   ];
   private weaponOptions = ["All", "FIREARM", "HANDS", "KNIFE", "OTHER", "NA"];
   private inOutOptions = ["All", "Indoor", "Outdoor"];
@@ -152,7 +152,15 @@ export default class Sidebar extends Vue {
 
     if(this.selectedDays.length && !this.selectedDays.find(el => el === "All")) {
 
-      request["crimedays"] = this.selectedDays;
+      const dayNumbers: number[] = [];
+
+      for(const day of this.selectedDays) {
+
+        dayNumbers.push(this.dayOptions.indexOf(day)-1);
+
+      }
+
+      request["crimedays"] = dayNumbers;
 
     }
 
