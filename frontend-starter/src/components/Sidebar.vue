@@ -96,33 +96,78 @@ export default class Sidebar extends Vue {
   private inOutOptions = ['All', 'Indoor', 'Outdoor'];
 
   filter() {
-    const json = JSON.stringify({
-        crimedate: null,
-        crimetime: null,
-        locations: null,
-        descriptions: this.selectedDescriptions,
-        inside: this.selectedInOut,
-        districts: this.selectedDistricts,
-        premises: null,
-        weapons: this.selectedWeapons
-      })
-    console.log(json);
-    fetch('http://localhost:3000/api/data', {
-      method: 'POST',
-      //headers: {'Content-Type': 'application/json'},
-      body: json
-    })
-    .then((response) => {
-      console.log(response.json());
-    })
-    .then((data) => {
-      console.log(data);
-    });
+    const mockRequest = `{
+      "crimedate": [
+        "2014-01-14",
+        "2020-04-04"
+      ],
+      "crimetime": [
+        "13:00:00",
+        "22:00:00"
+      ],
+      "descriptions": [
+        "LARCENY",
+        "BURGLARY"
+      ],
+      "inside": [
+        "I"
+      ],
+      "districts": [
+        "NORTHEAST",
+        "WESTERN"
+      ],
+      "premises": [
+        "ROW/TOWNHOUSE-VAC"
+      ],
+      "neighborhoods": [
+        "FRANKLIN SQUARE",
+        "FRANKFORD"
+      ]
+    }`;
+    //console.log(mockRequest);
+    this.$emit("APIData", mockRequest);
+    // const json = JSON.stringify({
+    //     // crimedate: null,
+    //     // crimetime: null,
+    //     // locations: null,
+    //     descriptions: this.selectedDescriptions,
+    //     inside: this.selectedInOut,
+    //     districts: this.selectedDistricts,
+    //     //premises: null,
+    //     weapons: this.selectedWeapons
+    //   })
   }
 
   mounted() {
-    console.log("");
-    this.$emit("Some_event", "Some custom event");
+    const mockRequest = `{
+      "crimedate": [
+        "2014-01-14",
+        "2020-04-04"
+      ],
+      "crimetime": [
+        "13:00:00",
+        "22:00:00"
+      ],
+      "descriptions": [
+        "LARCENY",
+        "BURGLARY"
+      ],
+      "inside": [
+        "I"
+      ],
+      "districts": [
+        "NORTHEAST",
+        "WESTERN"
+      ],
+      "premises": [
+        "ROW/TOWNHOUSE-VAC"
+      ],
+      "neighborhoods": [
+        "FRANKLIN SQUARE",
+        "FRANKFORD"
+      ]
+    }`;
+    this.$emit("APIData", mockRequest);
   }
 }
 
