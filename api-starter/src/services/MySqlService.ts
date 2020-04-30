@@ -175,8 +175,6 @@ export class MySqlService {
 
         const query = "SELECT * FROM vbcd WHERE (" + conditions + ") ORDER BY CrimeDate DESC,CrimeTime DESC";
 
-        console.log(query);
-
         const queryResult = (await this.query(query));
 
         return queryResult;
