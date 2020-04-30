@@ -98,8 +98,6 @@ export class MySqlService {
 
         if (params.crimemonth) {
 
-            console.log(params)
-
             conditions += this.conditionSeparator + " ( year(crimedate) = '" + params.crimemonth[0].split("-")[0] + "' AND month(crimedate) = '" + params.crimemonth[0].split("-")[1] +"')";
 
         }

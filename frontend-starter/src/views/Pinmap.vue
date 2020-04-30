@@ -3,7 +3,7 @@
     <div class="main-view">
       <Map ref="map" class="map" />
     </div>
-    <Sidebar @filterData="filterMapData" monthPicker=true :defaultFilter="defFilter" ref="sidebar" class="sidebar" />
+    <Sidebar @filterData="filterMapData" monthPicker=true ref="sidebar" class="sidebar" />
   </div>
 </template>
 
@@ -21,7 +21,6 @@ import Graphs from "../components/Graphs.vue";
   }
 })
 export default class Pinmap extends Vue {
-  private defFilter = {crimemonth: [new Date().getFullYear() + "-" + (new Date().getMonth() + 1)]}
 
   mounted() {
     this.configureMap([]);

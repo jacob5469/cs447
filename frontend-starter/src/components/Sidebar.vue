@@ -32,6 +32,7 @@
         <v-date-picker
           title="Crime date range"
           type="month"
+          value="new Date()"
           v-model="selectedMonth"
           no-title
           style="bottom: 40px;"
@@ -130,11 +131,9 @@ export default class Sidebar extends Vue {
   private selectedDates: string[] = [];
   private selectedWeapons: string[] = [];
   private selectedInOut = "";
-  private selectedMonth = ""
+  private selectedMonth = new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
   @Prop({default: false}) 
   monthPicker;
-  @Prop({default: {}})
-  defaultFilter;
 
   //TODO fix these
   private descriptionOptions = [
@@ -222,13 +221,11 @@ export default class Sidebar extends Vue {
       request["inside"] = this.selectedInOut === "Indoor" ? ["I"] : ["O"];
     }
 
-    console.log(request);
-
     this.$emit("filterData", JSON.stringify(request));
   }
 
   mounted() {
-    this.$emit("filterData", JSON.stringify(this.defaultFilter));
+    this.filter();
   }
 }
 </script>
