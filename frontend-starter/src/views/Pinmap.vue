@@ -3,7 +3,7 @@
     <div class="main-view">
       <Map ref="map" class="map" />
     </div>
-    <Sidebar @filterData="filterMapData" monthPicker=false ref="sidebar" class="sidebar" />
+    <Sidebar @filterData="filterMapData" monthPicker=true :defaultFilter="defFilter" ref="sidebar" class="sidebar" />
   </div>
 </template>
 
@@ -20,8 +20,8 @@ import Graphs from "../components/Graphs.vue";
     Sidebar
   }
 })
-export default class Heatmap extends Vue {
-  private a = "b";
+export default class Pinmap extends Vue {
+  private defFilter = {crimemonth: [new Date().getFullYear() + "-" + (new Date().getMonth() + 1)]}
 
   mounted() {
     this.configureMap([]);
@@ -44,7 +44,7 @@ export default class Heatmap extends Vue {
     const map = this.$refs.map as Map;
     map.resetMap();
     map.setMapData(mapData);
-    map.addHeatmap();
+    map.addMarkers();
   }
 
   constructor() {

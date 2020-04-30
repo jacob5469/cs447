@@ -11,6 +11,8 @@
           <router-link to="/graph" tag="button">Graph</router-link>
           <v-divider class="mx-10" vertical></v-divider>
           <router-link to="/heatmap" tag="button">Heat Map</router-link>
+          <v-divider class="mx-10" vertical></v-divider>
+          <router-link to="/pinmap" tag="button">Pin Map</router-link>
         </v-toolbar-items>
       </v-app-bar>
       <v-content class="vcontent">

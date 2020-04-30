@@ -70,7 +70,7 @@ export class MySqlService {
     async getData(params: ApiRequest["body"]) {
 
         // No filters, get all the data
-        if(!Object.keys(params).length) {
+        if (!Object.keys(params).length) {
 
             return await this.query("SELECT * FROM VBCD ORDER BY CrimeDate DESC,CrimeTime DESC");
 
@@ -96,9 +96,17 @@ export class MySqlService {
             conditions += this.conditionSeparator + " ( CrimeDate Between '" + params.crimedate[0] + "' AND '" + params.crimedate[1] + "')";
         }
 
-        if(params.crimedays) {
+        if (params.crimemonth) {
 
-            conditions += this.orCondition("WEEKDAY(CrimeDate)",params.crimedays);
+            console.log(params)
+
+            conditions += this.conditionSeparator + " ( year(crimedate) = '" + params.crimemonth[0].split("-")[0] + "' AND month(crimedate) = '" + params.crimemonth[0].split("-")[1] +"')";
+
+        }
+
+        if (params.crimedays) {
+
+            conditions += this.orCondition("WEEKDAY(CrimeDate)", params.crimedays);
 
         }
 
@@ -166,6 +174,8 @@ export class MySqlService {
         conditions = conditions.split(this.conditionSeparator).join("AND");
 
         const query = "SELECT * FROM vbcd WHERE (" + conditions + ") ORDER BY CrimeDate DESC,CrimeTime DESC";
+
+        console.log(query);
 
         const queryResult = (await this.query(query));
 

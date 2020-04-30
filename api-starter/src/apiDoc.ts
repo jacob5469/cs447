@@ -21,6 +21,12 @@ export default {
 						type: "string"
 					}
 				},
+				crimemonth: {
+					type: "array",
+					items: {
+						type: "string"
+					}
+				},
 				locations: {
 					type: "array",
 					items: {

@@ -5,9 +5,12 @@
         <div class="section-title">Global Filter Settings</div>
         <br />
 
+        <div v-if="monthPicker=='false'" >
+        
         <div class="small-title">Time Frame</div>
         <br />
         <br />
+
         <v-date-picker
           title="Crime date range"
           no-title
@@ -17,6 +20,26 @@
         ></v-date-picker>
 
         <v-spacer />
+
+        </div>
+
+           <div v-if="monthPicker=='true'" >
+        
+        <div class="small-title">Time Frame</div>
+        <br />
+        <br />
+
+        <v-date-picker
+          title="Crime date range"
+          type="month"
+          v-model="selectedMonth"
+          no-title
+          style="bottom: 40px;"
+        ></v-date-picker>
+
+        <v-spacer />
+
+        </div>
 
         <div>
           <!-- <div class="small-title">Descriptions</div>  -->
@@ -107,8 +130,11 @@ export default class Sidebar extends Vue {
   private selectedDates: string[] = [];
   private selectedWeapons: string[] = [];
   private selectedInOut = "";
-  private menu = false;
-  private endDate = "";
+  private selectedMonth = ""
+  @Prop({default: false}) 
+  monthPicker;
+  @Prop({default: {}})
+  defaultFilter;
 
   //TODO fix these
   private descriptionOptions = [
@@ -144,9 +170,16 @@ export default class Sidebar extends Vue {
   private inOutOptions = ["All", "Indoor", "Outdoor"];
 
   filter() {
+
     const request = {};
 
-    if (this.selectedDates.length == 2) {
+    if(this.selectedMonth && this.monthPicker == "true") {
+
+      request["crimemonth"] = [this.selectedMonth];
+
+    }
+
+    if (this.selectedDates.length == 2 && this.monthPicker=="false") {
       request["crimedate"] = this.selectedDates;
     }
 
@@ -189,11 +222,13 @@ export default class Sidebar extends Vue {
       request["inside"] = this.selectedInOut === "Indoor" ? ["I"] : ["O"];
     }
 
+    console.log(request);
+
     this.$emit("filterData", JSON.stringify(request));
   }
 
   mounted() {
-    this.filter();
+    this.$emit("filterData", JSON.stringify(this.defaultFilter));
   }
 }
 </script>

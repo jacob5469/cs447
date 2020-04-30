@@ -46,13 +46,7 @@ export default class Map extends Vue {
 
   setMapData(mapData: any) {
     this.mapData = mapData;
-    // Remove rows with null lat/long from the data
-    for (let i = 0; i < mapData.length; i++) {
-      if (!mapData[i].latitude || !mapData[i].longitude) {
-        mapData.splice(i, 1);
-        i--;
-      }
-    }
+    this.mapData = this.mapData.filter(el => (el.latitude && el.longitude));
   }
 
   addHeatmap() {
@@ -63,7 +57,7 @@ export default class Map extends Vue {
     const heatLayer = L.heatLayer(addressPoints, {
       radius: 60,
       blur: 60,
-      minOpacity: 0.75
+      minOpacity: 0.6
     });
 
     heatLayer.addTo(this.map);
