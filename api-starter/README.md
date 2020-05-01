@@ -14,7 +14,7 @@ DB_PASSWORD=YOUR DATABASE PASSWORD GOES HERE
 DB_NAME=cs447
 ```
 
-Finally, finally modules:
+Finally, install modules:
 
 ```
 npm install
