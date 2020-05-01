@@ -1,4 +1,4 @@
-# Baltimore crime database project api
+# Baltimore Crime Data Project API
 
 ## Project setup
 
