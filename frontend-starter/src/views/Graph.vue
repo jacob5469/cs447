@@ -15,12 +15,13 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class Graph extends Vue {
   async example(chart, google) {
+      //does a get by default
       const data = await (
-        await fetch("http://localhost:3000/api/map/data", {
+        await fetch("http://localhost:3000/api/graphs/weekday", {
           headers: { "Content-Type": "application/json" },
-          method: "post",
         })
     ).json();
+
     // const data = [
     //     {
     //       "WEEKDAY(crimedate)": 2,
