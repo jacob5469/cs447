@@ -1,7 +1,9 @@
 # Baltimore crime database project api
 
 ## Project setup
+
 First install mysql and setup a database https://dev.mysql.com/doc/mysql-getting-started/en/
+
 Second, install mysql workbench, connect to the database you just created and run the following sql script:
 https://drive.google.com/file/d/11XhD5AR9a3iAEBftcNCXrLeeNczru8qq/view?usp=sharing
 
@@ -11,6 +13,8 @@ Third, create a file called ".env" side-by-side with this file and populate it w
 DB_PASSWORD=YOUR DATABASE PASSWORD GOES HERE
 DB_NAME=cs447
 ```
+
+Finally, finally modules:
 
 ```
 npm install
@@ -26,15 +30,15 @@ npm run serve-dev
 npm run build
 ```
 
-### Run your unit tests
+### Run without hot rebuilds
 ```
-npm run test:unit
+npm run serve
 ```
 
-### Lints and fixes files
+### Clean a previous build and rebuild the code
 ```
-npm run lint
+npm run rebuild
 ```
 
 ### Access Open-API documentation
-Navigate to localhost:3000/doc
+Navigate to http://localhost:3000/doc
