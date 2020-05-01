@@ -40,5 +40,5 @@ npm run serve
 npm run rebuild
 ```
 
-### Access Open-API documentation
+### Access API documentation while API is running
 Navigate to http://localhost:3000/doc
