@@ -8,7 +8,7 @@
         <v-toolbar-items class="hidden-sm-and-down">
           <router-link to="/" tag="button">Home</router-link>
           <v-divider class="mx-10" vertical></v-divider>
-          <router-link to="/graph" tag="button">Graph</router-link>
+          <router-link to="/graph" tag="button">Statistics</router-link>
           <v-divider class="mx-10" vertical></v-divider>
           <router-link to="/heatmap" tag="button">Heat Map</router-link>
           <v-divider class="mx-10" vertical></v-divider>
