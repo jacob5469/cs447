@@ -1,4 +1,4 @@
-# test2
+# Baltimore Crime Data Project Frontend
 
 ## Project setup
 ```
