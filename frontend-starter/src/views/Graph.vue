@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
-    <GChart type="ColumnChart" @ready="weekDayDistribution" style="width: 900px; height: 500px;" />
-    <GChart type="ColumnChart" @ready="weaponDistribution" style="width: 900px; height: 500px;" />
-    <GChart type="ColumnChart" @ready="districtDistribution" style="width: 900px; height: 500px;" />
-    <GChart type="BarChart" @ready="descriptionDistribution" style="width: 900px; height: 500px;" />
-    <GChart type="AreaChart" @ready="crimeDateTrend" style="width: 900px; height: 500px;" />
-    <GChart type="AreaChart" @ready="crimeTimeTrend" style="width: 900px; height: 500px;" />
+  <div id="graphs">
+    <v-card-title primary-title class="justify-center">
+      <GChart type="ColumnChart" @ready="weekDayDistribution" style="width: 1200px; height: 500px;" />
+      <GChart type="ColumnChart" @ready="weaponDistribution" style="width: 1200px; height: 500px;" />
+      <GChart type="ColumnChart" @ready="districtDistribution" style="width: 1200px; height: 500px;" />
+      <GChart type="BarChart" @ready="descriptionDistribution" style="width: 1200px; height: 500px;" />
+      <GChart type="AreaChart" @ready="crimeDateTrend" style="width: 1200px; height: 500px;" />
+      <GChart type="AreaChart" @ready="crimeTimeTrend" style="width: 1200px; height: 500px;" />
+    </v-card-title>
   </div>
 </template>
 
@@ -81,7 +83,7 @@ export default class Graph extends Vue {
           headers: { "Content-Type": "application/json" },
         })
     ).json();
-   
+    
     const map = new Map();
     for (let i = 0; i < data.length; i++) {
       const weapon = data[i]['weapon'];
@@ -291,3 +293,9 @@ async crimeTimeTrend(chart, google) {
 
 }
 </script>
+
+<style>
+  .graphs {
+    vertical-align : middle;
+  }
+</style>
