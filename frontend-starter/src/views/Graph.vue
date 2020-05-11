@@ -67,12 +67,11 @@ export default class Graph extends Vue {
         }
       }
     };
+
     const chartData = [["ID"], [""]];
-    for (const [key, value] of map.entries()) {
-      chartData[0].push(key);
-      chartData[1].push(value);
-    }
-    const table = new google.visualization.arrayToDataTable(chartData);
+    const newChartData = await this.columnChartMaker(chartData, map);
+
+    const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
   };
 
@@ -106,12 +105,11 @@ export default class Graph extends Vue {
         }
       }
     };
+    
     const chartData = [["ID"], [""]];
-    for (const [key, value] of map.entries()) {
-      chartData[0].push(key);
-      chartData[1].push(value);
-    }
-    const table = new google.visualization.arrayToDataTable(chartData);
+    const newChartData = await this.columnChartMaker(chartData, map);
+
+    const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
   }
 
@@ -145,12 +143,11 @@ export default class Graph extends Vue {
         }
       }
     };
+    
     const chartData = [["ID"], [""]];
-    for (const [key, value] of map.entries()) {
-      chartData[0].push(key);
-      chartData[1].push(value);
-    }
-    const table = new google.visualization.arrayToDataTable(chartData);
+    const newChartData = await this.columnChartMaker(chartData, map);
+
+    const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
   }
 
@@ -184,12 +181,11 @@ async descriptionDistribution(chart, google) {
       }
     }
   };
+  
   const chartData = [["ID"], [""]];
-  for (const [key, value] of map.entries()) {
-    chartData[0].push(key);
-    chartData[1].push(value);
-  }
-  const table = new google.visualization.arrayToDataTable(chartData);
+  const newChartData = await this.columnChartMaker(chartData, map);
+
+  const table = new google.visualization.arrayToDataTable(newChartData);
   chart.draw(table, options);
 }
 
@@ -230,13 +226,9 @@ async descriptionDistribution(chart, google) {
       }
     };
     const chartData = [["Year", "Cases"]];
-    for (const [key, value] of map.entries()) {
-      const recordInYears:any[] = []
-      recordInYears.push(key);
-      recordInYears.push(value);
-      chartData.push(recordInYears);
-    }
-    const table = new google.visualization.arrayToDataTable(chartData);
+    const newChartData = await this.areaChartMaker(chartData, map);
+
+    const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
   }
 
@@ -289,6 +281,25 @@ async crimeTimeTrend(chart, google) {
     }
     const table = new google.visualization.arrayToDataTable(chartData);
     chart.draw(table, options);
+  }
+
+  async columnChartMaker(chartData, map) {
+    for (const [key, value] of map.entries()) {
+      chartData[0].push(key);
+      chartData[1].push(value);
+    }
+    return chartData;
+  }
+
+
+  async areaChartMaker(chartData, map) {
+    for (const [key, value] of map.entries()) {
+      const record:any[] = []
+      record.push(key);
+      record.push(value);
+      chartData.push(record);
+    }
+    return chartData;
   }
 
 }
