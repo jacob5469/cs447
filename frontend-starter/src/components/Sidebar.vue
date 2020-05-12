@@ -135,14 +135,22 @@ export default class Sidebar extends Vue {
   @Prop({default: false}) 
   monthPicker;
 
-  //TODO fix these
   private descriptionOptions = [
     "All",
     "AGG. ASSAULT",
+    "ARSON",
+    "AUTO THEFT",
     "BURGLARY",
     "COMMON ASSAULT",
+    "HOMICIDE",
     "LARCENY",
-    "ROBBERY - STREET"
+    "LARCENY FROM AUTO",
+    "RAPE",
+    "ROBBERY - CARJACKING",
+    "ROBBERY - COMMERCIAL",
+    "ROBBERY - RESIDENCE",
+    "ROBBERY - STREET",
+    "SHOOTING"
   ];
   private districtOptions = [
     "All",
@@ -165,7 +173,7 @@ export default class Sidebar extends Vue {
     "Saturday",
     "Sunday",
   ];
-  private weaponOptions = ["All", "FIREARM", "HANDS", "KNIFE", "OTHER", "NA"];
+  private weaponOptions = ["All", "FIRE", "FIREARM", "HANDS", "KNIFE", "OTHER", "NA"];
   private inOutOptions = ["All", "Indoor", "Outdoor"];
 
   filter() {
