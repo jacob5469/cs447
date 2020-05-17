@@ -1,5 +1,6 @@
 <template>
   <div id="graphs">
+    <Loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" loader="bars" color="#007bff" height=128 width=128></Loading>
     <v-card-title primary-title class="justify-center">
       <GChart type="ColumnChart" @ready="weekDayDistribution" style="width: 1200px; height: 500px;" />
       <GChart type="ColumnChart" @ready="weaponDistribution" style="width: 1200px; height: 500px;" />
@@ -14,13 +15,33 @@
 <script lang="ts">
 import { GChart } from "vue-google-charts";
 import { Component, Vue } from "vue-property-decorator";
+import { Watch } from "vue-property-decorator";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 @Component({
   components: {
-    GChart
+    GChart,
+    Loading
   }
 })
 export default class Graph extends Vue {
+
+  private chartsLoaded = 0;
+  private isLoading = true;
+
+  @Watch("chartsLoaded")
+  onPropertyChanged(value:number, newValue:number) {
+
+    if(this.chartsLoaded == 6) {
+
+      this.isLoading = false;
+
+    }
+
+  }
+
+
   async weekDayDistribution(chart, google) {
       //does a get by default
     const data = await (
@@ -73,6 +94,8 @@ export default class Graph extends Vue {
 
     const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
+    this.chartsLoaded += 1;
+
   };
 
   async weaponDistribution(chart, google) {
@@ -111,6 +134,7 @@ export default class Graph extends Vue {
 
     const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
+    this.chartsLoaded += 1;
   }
 
   async districtDistribution(chart, google) {
@@ -149,6 +173,7 @@ export default class Graph extends Vue {
 
     const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
+    this.chartsLoaded += 1;
   }
 
 async descriptionDistribution(chart, google) {
@@ -187,6 +212,7 @@ async descriptionDistribution(chart, google) {
 
   const table = new google.visualization.arrayToDataTable(newChartData);
   chart.draw(table, options);
+  this.chartsLoaded += 1;
 }
 
   async crimeDateTrend(chart, google) {
@@ -230,6 +256,7 @@ async descriptionDistribution(chart, google) {
 
     const table = new google.visualization.arrayToDataTable(newChartData);
     chart.draw(table, options);
+    this.chartsLoaded += 1;
   }
 
 async crimeTimeTrend(chart, google) {
@@ -281,6 +308,7 @@ async crimeTimeTrend(chart, google) {
     }
     const table = new google.visualization.arrayToDataTable(chartData);
     chart.draw(table, options);
+    this.chartsLoaded += 1;
   }
 
   async columnChartMaker(chartData, map) {

@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="main-view">
+      <Loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" loader="bars" color="#007bff" height=128 width=128></Loading>
       <Map ref="map" class="map" />
     </div>
-    <Sidebar @filterData="filterMapData" monthPicker=true ref="sidebar" class="sidebar" />
+    <Sidebar @filterData="filterMapData" monthPicker="true" ref="sidebar" class="sidebar" />
   </div>
 </template>
 
@@ -11,22 +12,26 @@
 import { Component, Vue } from "vue-property-decorator";
 import Map from "../components/Map.vue";
 import Sidebar from "../components/Sidebar.vue";
-import Graphs from "../components/Graphs.vue";
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 
 @Component({
   components: {
     Map,
-    Graphs,
-    Sidebar
+    Sidebar,
+    Loading
   }
 })
 export default class Pinmap extends Vue {
+  private isLoading = false;
 
   mounted() {
     this.configureMap([]);
   }
 
   async filterMapData(filters: any) {
+    this.isLoading = true;
+
     // Await for the response, then await for the response body to give back JSON
     const data = await (
       await fetch("http://localhost:3000/api/map/data", {
@@ -35,6 +40,8 @@ export default class Pinmap extends Vue {
         body: filters
       })
     ).json();
+
+    this.isLoading = false;
 
     this.configureMap(data);
   }
