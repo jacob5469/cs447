@@ -49,10 +49,13 @@ export default class Graph extends Vue {
           headers: { "Content-Type": "application/json" },
         })
     ).json();
+
+    console.log(data);
    
     const map = new Map();
     for (let i = 0; i < data.length; i++) {
-      const weekDay = data[i]['WEEKDAY(crimedate)'];
+      
+      const weekDay = data.find(obj => obj["WEEKDAY(crimedate)"] == i)['WEEKDAY(crimedate)'];
       const numberOfCrime = data[i]['COUNT(*)'];
       let day = "";
       if (weekDay === 0) {
