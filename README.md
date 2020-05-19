@@ -10,7 +10,7 @@ NodeJS and npm https://nodejs.org/en/
 
 ### Setup
 
-Instructions to standup a dev environment for both the API and Frontend can be found in the README.md under the api and frontend folders respectively
+Instructions to standup a dev environment for both the API and Frontend can be found in the README.md under the api and frontend folders respectively. Start by setting up the API and then setting up the frontend. It is required that the API be running alongside the frontend for the frontend to display any data at all.
 
 ### License
 
