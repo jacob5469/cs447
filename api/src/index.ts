@@ -7,6 +7,7 @@ import cors from "cors";
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 
+//Bring variables from the .env file that should be in the directory above this one per the README.md into the process.env
 require("dotenv").config();
 
 // This instance of MySqlService will be dependency injected into all of the routes that need it
