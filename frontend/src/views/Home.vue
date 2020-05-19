@@ -9,7 +9,9 @@
         height="600"
       />
       <h1>
-        <span> <span class="spacer"></span>Baltimore Crime Data </span>
+        <span>
+          <span class="spacer"></span>Baltimore Crime Data
+        </span>
       </h1>
     </div>
     <div class="container">

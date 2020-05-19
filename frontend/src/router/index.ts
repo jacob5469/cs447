@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 
 Vue.use(VueRouter);
 
+// Define what components are mapped to each route on the website. Some are static imports, some are dynamically imported
 const routes = [
   {
     path: "/",
@@ -33,6 +34,7 @@ const routes = [
   }
 ];
 
+// History for the router means that the website will operate like a SPA
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,

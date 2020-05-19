@@ -7,7 +7,6 @@ export default function (mySqlService: MySqlService) {
         get: get
     };
 
-    // This could be a POST with easy body parameters, but maybe more annoying to document or a GET with header parameters/form-encoded
     async function get(req: Request, res: Response, next: NextFunction) {
 
         res.status(200).send(await mySqlService.query("SELECT weapon,COUNT(*) FROM VBCD GROUP BY WEAPON"));
@@ -26,8 +25,9 @@ export default function (mySqlService: MySqlService) {
                 }
             }
         }
-       
+
     }
 
     return operations;
+
 }

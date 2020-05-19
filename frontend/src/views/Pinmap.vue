@@ -1,7 +1,15 @@
 <template>
   <div>
     <div class="main-view">
-      <Loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" loader="bars" color="#007bff" height=128 width=128></Loading>
+      <Loading
+        :active.sync="isLoading"
+        :can-cancel="false"
+        :is-full-page="true"
+        loader="bars"
+        color="#007bff"
+        height="128"
+        width="128"
+      ></Loading>
       <Map ref="map" class="map" />
     </div>
     <Sidebar @filterData="filterMapData" monthPicker="true" ref="sidebar" class="sidebar" />
@@ -22,6 +30,9 @@ import "vue-loading-overlay/dist/vue-loading.css";
     Loading
   }
 })
+/**
+ * View that contains logic for the pinmap page on the website.
+ */
 export default class Pinmap extends Vue {
   private isLoading = false;
 
@@ -29,6 +40,10 @@ export default class Pinmap extends Vue {
     this.configureMap([]);
   }
 
+  /**
+   * Function called when sidebar emits the filterData event
+   * @param filters filters from the sidebar
+   */
   async filterMapData(filters: any) {
     this.isLoading = true;
 
@@ -46,6 +61,10 @@ export default class Pinmap extends Vue {
     this.configureMap(data);
   }
 
+  /**
+   * Resets, adds new data to, and adds a pinmap/marker layer to the map component
+   * @param mapData Data points to add to the map
+   */
   configureMap(mapData: any) {
     const map = this.$refs.map as Map;
     map.resetMap();

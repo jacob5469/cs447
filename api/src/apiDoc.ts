@@ -1,3 +1,7 @@
+/**
+ * OpenAPI spec API doc file that sets the base path of the API,
+ * title that shows up on the API page, and some definitions for the page
+ */
 export default {
 	swagger: "2.0",
 	basePath: "/api",

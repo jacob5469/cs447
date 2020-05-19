@@ -14,6 +14,9 @@ import * as L from "leaflet";
     LTileLayer
   }
 })
+/**
+ * Class for the map component of the frontend.
+ */
 export default class Map extends Vue {
   private map: L.Map | any = null;
   private mapData: any;
@@ -22,11 +25,16 @@ export default class Map extends Vue {
     super();
   }
 
-  // Mounted is called automatically when the component loads by Vue
+  /**
+   * Automatically called function that resets the map once this component loads
+   */
   mounted() {
     this.resetMap();
   }
 
+  /**
+   * Clears the map of all points and either places the map center at the center of baltimore and zoom at 12, or keeps the current zoom.
+   */
   resetMap() {
     let mapCenter = [39.2904, -76.6122];
     let mapZoom = 12;
@@ -44,11 +52,17 @@ export default class Map extends Vue {
     }).addTo(this.map);
   }
 
+  /**
+   * Sets the point data to be held on the map component, points are not displayed until a heatmap or pinmap is added
+   */
   setMapData(mapData: any) {
     this.mapData = mapData;
-    this.mapData = this.mapData.filter(el => (el.latitude && el.longitude));
+    this.mapData = this.mapData.filter(el => el.latitude && el.longitude);
   }
 
+  /**
+   * Uses the mapData points on the component to place a heatmap layer on the map
+   */
   addHeatmap() {
     const addressPoints = this.mapData.map(
       (p: any) => [p.latitude, p.longitude] as L.LatLngExpression
@@ -63,6 +77,9 @@ export default class Map extends Vue {
     heatLayer.addTo(this.map);
   }
 
+  /**
+   * Uses the mapData points on the component to place a pinmap/marker layer on the map
+   */
   addMarkers() {
     for (const row of this.mapData) {
       const point: L.LatLngExpression = [

@@ -7,12 +7,12 @@ export default function (mySqlService: MySqlService) {
         get: get
     };
 
-    // This could be a POST with easy body parameters, but maybe more annoying to document or a GET with header parameters/form-encoded
     async function get(req: Request, res: Response, next: NextFunction) {
 
         res.status(200).send(await mySqlService.query("SELECT crimedate,COUNT(*) FROM VBCD WHERE YEAR(CRIMEDATE) > '2013' GROUP BY crimedate"));
 
     }
+
     get.apiDoc = {
 
         summary: 'Endpoint to request number of crimes for each date',
@@ -25,8 +25,9 @@ export default function (mySqlService: MySqlService) {
                 }
             }
         }
-       
+
     }
 
     return operations;
+
 }

@@ -1,7 +1,15 @@
 <template>
   <div>
     <div class="main-view">
-      <Loading :active.sync="isLoading" :can-cancel="false" :is-full-page="true" loader="bars" color="#007bff" height=128 width=128></Loading>
+      <Loading
+        :active.sync="isLoading"
+        :can-cancel="false"
+        :is-full-page="true"
+        loader="bars"
+        color="#007bff"
+        height="128"
+        width="128"
+      ></Loading>
       <Map ref="map" class="map" disabled="loading" />
     </div>
     <Sidebar @filterData="filterMapData" monthPicker="false" ref="sidebar" class="sidebar" />
@@ -22,13 +30,21 @@ import "vue-loading-overlay/dist/vue-loading.css";
     Loading
   }
 })
+/**
+ * View that contains the logic for the heatmap page
+ */
 export default class Heatmap extends Vue {
+  // When true, triggers the loading bars to appear
   private isLoading = true;
 
   mounted() {
     this.configureMap([]);
   }
 
+  /**
+   * Function called when sidebar emits the filterData event
+   * @param filters filters from the sidebar
+   */
   async filterMapData(filters: any) {
     this.isLoading = true;
 
@@ -46,6 +62,10 @@ export default class Heatmap extends Vue {
     this.isLoading = false;
   }
 
+  /**
+   * Resets, adds new data to, and adds a heatmap layer to the map component
+   * @param mapData Data points to add to the map
+   */
   configureMap(mapData: any) {
     const map = this.$refs.map as Map;
     map.resetMap();

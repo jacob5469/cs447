@@ -5,41 +5,37 @@
         <div class="section-title">Global Filter Settings</div>
         <br />
 
-        <div v-if="monthPicker=='false'" >
-        
-        <div class="small-title">Time Frame</div>
-        <br />
-        <br />
+        <div v-if="monthPicker=='false'">
+          <div class="small-title">Time Frame</div>
+          <br />
+          <br />
 
-        <v-date-picker
-          title="Crime date range"
-          no-title
-          v-model="selectedDates"
-          style="bottom: 40px;"
-          range
-        ></v-date-picker>
+          <v-date-picker
+            title="Crime date range"
+            no-title
+            v-model="selectedDates"
+            style="bottom: 40px;"
+            range
+          ></v-date-picker>
 
-        <v-spacer />
-
+          <v-spacer />
         </div>
 
-           <div v-if="monthPicker=='true'" >
-        
-        <div class="small-title">Time Frame</div>
-        <br />
-        <br />
+        <div v-if="monthPicker=='true'">
+          <div class="small-title">Time Frame</div>
+          <br />
+          <br />
 
-        <v-date-picker
-          title="Crime date range"
-          type="month"
-          value="new Date()"
-          v-model="selectedMonth"
-          no-title
-          style="bottom: 40px;"
-        ></v-date-picker>
+          <v-date-picker
+            title="Crime date range"
+            type="month"
+            value="new Date()"
+            v-model="selectedMonth"
+            no-title
+            style="bottom: 40px;"
+          ></v-date-picker>
 
-        <v-spacer />
-
+          <v-spacer />
         </div>
 
         <div>
@@ -124,6 +120,9 @@ import MultiSelect from "vue-multiselect";
     inout: MultiSelect
   }
 })
+/**
+ * Sidebar component of the frontend, used for filtering the maps
+ */
 export default class Sidebar extends Vue {
   private selectedDescriptions: string[] = [];
   private selectedDistricts: string[] = [];
@@ -131,8 +130,11 @@ export default class Sidebar extends Vue {
   private selectedDates: string[] = [];
   private selectedWeapons: string[] = [];
   private selectedInOut = "";
-  private selectedMonth = new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
-  @Prop({default: false}) 
+  private selectedMonth =
+    new Date().getFullYear() + "-" + (new Date().getMonth() + 1);
+
+  // property that is passed in on the component tag
+  @Prop({ default: false })
   monthPicker;
 
   private descriptionOptions = [
@@ -171,37 +173,45 @@ export default class Sidebar extends Vue {
     "Thursday",
     "Friday",
     "Saturday",
-    "Sunday",
+    "Sunday"
   ];
-  private weaponOptions = ["All", "FIRE", "FIREARM", "HANDS", "KNIFE", "OTHER", "NA"];
+  private weaponOptions = [
+    "All",
+    "FIRE",
+    "FIREARM",
+    "HANDS",
+    "KNIFE",
+    "OTHER",
+    "NA"
+  ];
   private inOutOptions = ["All", "Indoor", "Outdoor"];
 
+  /**
+   * Takes the currently selected filters, places in them in a object that's in the format the API expects,
+   * and emits a filter event that is picked up by the parent component that may want to call the API with the filters
+   */
   filter() {
-
     const request = {};
 
-    if(this.selectedMonth && this.monthPicker == "true") {
-
+    if (this.selectedMonth && this.monthPicker == "true") {
       request["crimemonth"] = [this.selectedMonth];
-
     }
 
-    if (this.selectedDates.length == 2 && this.monthPicker=="false") {
+    if (this.selectedDates.length == 2 && this.monthPicker == "false") {
       request["crimedate"] = this.selectedDates;
     }
 
-    if(this.selectedDays.length && !this.selectedDays.find(el => el === "All")) {
-
+    if (
+      this.selectedDays.length &&
+      !this.selectedDays.find(el => el === "All")
+    ) {
       const dayNumbers: number[] = [];
 
-      for(const day of this.selectedDays) {
-
-        dayNumbers.push(this.dayOptions.indexOf(day)-1);
-
+      for (const day of this.selectedDays) {
+        dayNumbers.push(this.dayOptions.indexOf(day) - 1);
       }
 
       request["crimedays"] = dayNumbers;
-
     }
 
     if (
