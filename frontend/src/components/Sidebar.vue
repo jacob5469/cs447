@@ -198,7 +198,11 @@ export default class Sidebar extends Vue {
     }
 
     if (this.selectedDates.length == 2 && this.monthPicker == "false") {
+
+      this.selectedDates.sort((a,b) => new Date(a).valueOf() - new Date(b).valueOf());
+
       request["crimedate"] = this.selectedDates;
+    
     }
 
     if (
