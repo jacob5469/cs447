@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <div>
-        <div class="section-title">Global Filter Settings</div>
+        <div class="section-title">Filter Settings</div>
         <br />
 
         <div v-if="monthPicker=='false'">
